@@ -1,0 +1,338 @@
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\ApplicationInsights.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\iTeamPM.dll.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\iTeamPM.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\iTeamPM.pdb
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csc.exe
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csc.exe.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csc.rsp
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csi.exe
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csi.exe.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\csi.rsp
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.AppContext.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Console.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.Compression.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Claims.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Threading.Thread.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.ValueTuple.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\vbc.exe
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\vbc.exe.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\vbc.rsp
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\EntityFramework.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.ApplicationInsights.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Newtonsoft.Json.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Helpers.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Mvc.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Razor.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.Deployment.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.Razor.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\EntityFramework.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Newtonsoft.Json.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Razor.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.Deployment.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Webpages.Razor.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Helpers.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\System.Web.Mvc.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\obj\Debug\iTeamPM.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\obj\Debug\iTeamPM.pdb
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\obj\Debug\iTeamPM.csprojResolveAssemblyReference.cache
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Core.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.PlatformServices.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Core.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Auth.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Auth.PlatformServices.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Auth.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Owin.dll
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\KitaponJit\Source\Workspaces\i-Team Project Database\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\ApplicationInsights.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\iTeamPM.dll.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\iTeamPM.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\iTeamPM.pdb
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csc.exe
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csc.exe.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csc.rsp
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csi.exe
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csi.exe.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\csi.rsp
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.AppContext.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Collections.Immutable.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Console.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.Process.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.Compression.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Reflection.Metadata.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.AccessControl.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Claims.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Security.Principal.Windows.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Threading.Thread.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.ValueTuple.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XmlDocument.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\vbc.exe
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\vbc.exe.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\vbc.rsp
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe.config
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\EntityFramework.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Auth.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Auth.PlatformServices.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Core.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.PlatformServices.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.Agent.Intercept.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.ApplicationInsights.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Web.Infrastructure.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Newtonsoft.Json.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Owin.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Helpers.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Mvc.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Razor.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.Deployment.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.Razor.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\EntityFramework.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Auth.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Core.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\Newtonsoft.Json.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Helpers.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Mvc.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.Razor.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.Deployment.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\bin\System.Web.WebPages.Razor.xml
+D:\iTeam Project Management\iTeamPM\iTeamPM\obj\Debug\iTeamPM.csprojResolveAssemblyReference.cache
+D:\iTeam Project Management\iTeamPM\iTeamPM\obj\Debug\iTeamPM.dll
+D:\iTeam Project Management\iTeamPM\iTeamPM\obj\Debug\iTeamPM.pdb
+D:\Coding\Project\iTeamPM\iTeamPM\bin\ApplicationInsights.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\iTeamPM.dll.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\iTeamPM.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\iTeamPM.pdb
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csc.exe
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csc.exe.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csc.rsp
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csi.exe
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csi.exe.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\csi.rsp
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\Microsoft.Win32.Primitives.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.AppContext.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Collections.Immutable.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Console.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.Process.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.Compression.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.IO.Pipes.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Reflection.Metadata.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.AccessControl.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Claims.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Security.Principal.Windows.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Threading.Thread.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.ValueTuple.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XmlDocument.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\vbc.exe
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\vbc.exe.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\vbc.rsp
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe
+D:\Coding\Project\iTeamPM\iTeamPM\bin\roslyn\VBCSCompiler.exe.config
+D:\Coding\Project\iTeamPM\iTeamPM\bin\EntityFramework.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Auth.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Auth.PlatformServices.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Core.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.PlatformServices.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.ApplicationInsights.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Web.Infrastructure.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Newtonsoft.Json.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Owin.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Helpers.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Mvc.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Razor.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.Deployment.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.Razor.dll
+D:\Coding\Project\iTeamPM\iTeamPM\bin\EntityFramework.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\EntityFramework.SqlServer.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Auth.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Core.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Google.Apis.Drive.v3.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.DependencyCollector.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.Web.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AI.WindowsServer.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Microsoft.Owin.Security.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\Newtonsoft.Json.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Diagnostics.DiagnosticSource.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Helpers.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Mvc.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.Razor.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.Deployment.xml
+D:\Coding\Project\iTeamPM\iTeamPM\bin\System.Web.WebPages.Razor.xml
+D:\Coding\Project\iTeamPM\iTeamPM\obj\Debug\iTeamPM.csprojResolveAssemblyReference.cache
+D:\Coding\Project\iTeamPM\iTeamPM\obj\Debug\iTeamPM.csproj.CoreCompileInputs.cache
+D:\Coding\Project\iTeamPM\iTeamPM\obj\Debug\iTeamPM.csproj.CopyComplete
+D:\Coding\Project\iTeamPM\iTeamPM\obj\Debug\iTeamPM.dll
+D:\Coding\Project\iTeamPM\iTeamPM\obj\Debug\iTeamPM.pdb

@@ -1,0 +1,472 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Enable responsiveness on mobile devices-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <title>@(ViewBag.Title)</title>
+
+    <!--START Loader -->
+    <style>
+        #initial-loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            background: #212121;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            transition: opacity .2s ease-out;
+        }
+
+            #initial-loader .initial-loader-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 200px;
+                border-bottom: 1px solid #2d2d2d;
+                padding-bottom: 5px;
+            }
+
+                #initial-loader .initial-loader-top > * {
+                    display: block;
+                    flex-shrink: 0;
+                    flex-grow: 0;
+                }
+
+            #initial-loader .initial-loader-bottom {
+                padding-top: 10px;
+                color: #5C5C5C;
+                font-family: -apple-system, "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+                font-size: 12px;
+            }
+
+        @@keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #initial-loader .loader g {
+            transform-origin: 50% 50%;
+            animation: spin .5s linear infinite;
+        }
+
+        body.loading {
+            overflow: hidden !important;
+        }
+
+        body.loaded #initial-loader {
+            opacity: 0;
+        }
+
+        .button-h:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+    </style>
+    <!--END Loader-->
+    <!-- Google Font : Kanit -->
+    <link href="https://fonts.googleapis.com/css?family=Kanit:300" rel="stylesheet">
+
+    <!-- CSS Output -->
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/app.min.e0bb64e7.css" />
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/hover-min.css" />
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/angular-confirm.css" />
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/main.css" />
+    <link rel="stylesheet" href="~/Content/assets/stylesheets/button.css" />
+
+    <!-- START Favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/assets/images/ree.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/assets/images/ree.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/assets/images/ree.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/assets/images/ree.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/assets/images/ree.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/assets/images/ree.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/Content/assets/images/ree.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- END Favicon -->
+    <!-- Jquery 3.3.1 -->
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+    <base href="@Url.Content("~/")" />
+
+</head>
+<body class="sidebar-dark-primary sidebar-big-icons loading" ng-app="app">
+
+    <div id="initial-loader">
+        <div>
+            <div class="initial-loader-top">
+                <img class="initial-loader-logo img-responsive" style="height:60%;width:60%;margin-left:auto;margin-right:auto;" img src="~/Content/assets/images/Loading.gif" alt="Loader">
+            </div>
+        </div>
+    </div>
+
+    <!-- Bower Libraries Scripts -->
+    <script src="~/Scripts/lib.min.js"></script>
+
+    <div class="main-wrap">
+        <nav class="navigation">
+            <div class="navbar-default navbar navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="current navbar-brand" href="#" style="margin-top:-10px;">
+                            <img alt="Spin Logo Inverted" src="~/Content/assets/images/iclogo2.gif" height="40">
+                        </a>
+
+                        <button class="navbar-toggle collapsed" data-target="#navbar" data-toggle="collapse" type="button">
+                            <i class="fa fa-fw fa-user"></i>
+                        </button>
+                        <button class="action-sidebar-open navbar-toggle collapsed" type="button">
+                            <i class="fa fa-fw fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        <!-- START Right Side Navbar -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                    <i class="fa fa-lg fa-fw fa-bell hidden-xs"></i>
+                                    <span class="hidden-sm hidden-md hidden-lg">
+                                        Notifications
+                                    </span>
+                                    <div id="Total"></div>
+                                    <span class="fa fa-fw fa-angle-down hidden-lg hidden-md hidden-sm"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right p-t-0 b-t-0 p-b-0 b-b-0 b-a-0">
+                                    <li>
+                                        <div class="yamm-content p-t-0 p-r-0 p-l-0 p-b-0">
+                                            <ul class="list-group m-b-0 b-b-0">
+                                                <li class="list-group-item b-r-0 b-l-0 b-r-0 b-t-r-0 b-t-l-0 b-b-2 w-350">
+                                                    <small class="text-uppercase">
+                                                        <strong>Notifications</strong>
+                                                    </small>
+                                                </li>
+                                                <li class="list-group-item b-a-0 p-x-0 p-y-0 b-t-0" style="cursor:pointer">
+                                                    <div class="scroll-300 custom-scrollbar">
+                                                        <div id="ProjectAlert"></div>
+                                                        <div id="TasksAlert"></div>
+                                                        <div id="TasksListAlert"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- END Notification Dropdown Menu -->
+                            </li>
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                    <i class="fa fa-lg fa-fw fa-question-circle hidden-xs"></i>
+                                    <span class="hidden-sm hidden-md hidden-lg">
+                                        Contact
+                                    </span>
+                                    <div id="listTotal"></div>
+                                    <span class="fa fa-fw fa-angle-down hidden-lg hidden-md hidden-sm"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header text-gray-lighter">
+                                        <strong class="text-uppercase">Help</strong>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="@Url.Action("MapView", "API")">Contact</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="@Url.Action("AboutiTeam", "Help")">About iTeam</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle user-dropdown" data-toggle="dropdown" href="#" role="button">
+                                    <span class="m-r-1">@(auth.name_th)</span>
+                                    <div class="avatar avatar-image avatar-sm avatar-inline">
+                                        <img alt="User" style="height:25px;width:25px;margin-top:-7px" src="@(auth.path_image)" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header text-gray-lighter">
+                                        <strong class="text-uppercase">Account</strong>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="@(Url.Action("Profile_User", "Profile") + "?user_id=" + auth.user_id)">Your Profile</a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a data-toggle="modal" data-target=".modal-logout" style="cursor:pointer;">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                        <!-- END Right Side Navbar -->
+
+                    </div>
+                </div>
+            </div>
+            <aside class="navbar-default sidebar">
+                <div class="sidebar-overlay-head">
+                    <img src="~/Content/assets/images/TT2.gif" height="30" />
+                    <a href="javascript:void(0)" class="sidebar-switch action-sidebar-close">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+                <div class="sidebar-content">
+                    <ul class="side-menu">
+                        <li class="@RenderSection("indexActive", required: false)">
+                            <a href="@Url.Action("Index", "Home")" title="Overview">
+                                <i class="fa fa-lg fa-home fa-fw"></i>
+                                <span class="nav-label">Overview</span>
+                            </a>
+                        </li>
+                        <li class="@RenderSection("detailActive", required: false)">
+                            <a href="@Url.Action("Project_List", "Project")" title="Project">
+                                <i class="fa fa-lg fa-tasks fa-fw"></i>
+                                <span class="nav-label">Project</span>
+                            </a>
+                        </li>
+                        <li class="@RenderSection("memberActive", required: false)">
+                            <a href="@Url.Action("Member_List", "Member")" title="Team Member">
+                                <i class="fa fa-lg fa-users fa-fw"></i>
+                                <span class="nav-label">Member</span>
+                            </a>
+                        </li>
+                        <li class="@RenderSection("calendarActive", required: false)">
+                            <a href="@Url.Action("Calendar", "Calendar")" title="Calendar">
+                                <i class="fa fa-lg fa-calendar fa-fw"></i>
+                                <span class="nav-label">Calendar</span>
+                            </a>
+                        </li>
+                        <li class="@RenderSection("Community", required: false)">
+                            <a href="@Url.Action("Community", "Community")" title="Community">
+                                <i class="fa fa-lg fa-newspaper fa-fw"></i>
+                                <span class="nav-label">Newspaper</span>
+                            </a>
+                        </li>
+                        @if (auth.is_admin == "Y")
+                        {
+                            <li class="@RenderSection("Contact", required: false)">
+                                <a href="@Url.Action("ViewContact", "Help")" title="Contact">
+                                    <i class="fa fa-lg fa-envelope fa-fw"></i>
+                                    <span class="nav-label">Contact</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="sidebar-default-visible">
+                        <hr>
+                    </div>
+
+                </div>
+            </aside>
+        </nav>
+        <div class="content">
+            <div class="sub-navbar sub-navbar__header-breadcrumbs">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 sub-navbar-column">
+                            <div class="sub-navbar-header">
+                                <h3>@RenderSection("headerTitle", required: false)</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- START Content -->
+            @RenderBody()
+            <!-- END Content -->
+            <!-- START Modal : Logout -->
+            <div class="modal fade modal-logout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#xD7;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Signout Comfirm ?</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>คุณต้องการออกระบบใช่หรือไม่ ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <a href="@Url.Action("LogoutDo","Account")" type="button" class="btn btn-danger">Signout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Modal : Logout -->
+
+        </div>
+        <footer>
+            <div class="container-fluid">
+                <p class="text-gray-dark">
+                    <strong class="m-r-1">iTeam Project Management </strong>
+                    <span class="text-gray-dark">
+                        &#xA9; 2017 - 2018. Made by
+                        <i class="fa fa-fw fa-heart text-danger"></i> Bangkok, TH
+                    </span>
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        (function () {
+            var bodyElement = document.querySelector('body');
+            bodyElement.classList.add('loading');
+
+            document.addEventListener('readystatechange', function () {
+                if (document.readyState === 'complete') {
+                    var bodyElement = document.querySelector('body');
+                    var loaderElement = document.querySelector('#initial-loader');
+
+                    bodyElement.classList.add('loaded');
+                    setTimeout(function () {
+                        bodyElement.removeChild(loaderElement);
+                        bodyElement.classList.remove('loading', 'loaded');
+                    }, 200);
+                }
+            });
+        })();
+    </script>
+
+    <script>
+        var base = $("base").prop("href")
+    </script>
+
+    <link href="~/Content/assets/stylesheets/lib.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-ui-draggable.min.js"></script>
+    <script src="~/Scripts/scrolltopcontrol.js"></script>
+
+    <!-- App Main JS -->
+    <script src="~/Scripts/app.min.13a3a368.js"></script>
+
+    <!-- AngularJS & Angular Comfirm -->
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/angular-confirm.js"></script>
+    <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+
+    <!-- JS -->
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/bootstrap-select.min.js"></script>
+    <script src="~/Scripts/plugins-init.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/holder.min.js"></script>
+    <script src="~/Scripts/lodash.core.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/common.js"></script>
+    <script src="~/Scripts/jslinq.min.js"></script>
+
+    <!-- Data Picker JS -->
+    <script src="~/Scripts/fullcalendar.min.js"></script>
+    <script src="~/Scripts/daterangepicker.min.js"></script>
+    <script src="~/Scripts/date-range-picker-settings.js"></script>
+
+    <!-- Sweet Alert JS -->
+    <script src="~/Scripts/sweetalert.min.js"></script>
+
+    <script>
+        $(".select2-container").css({ 'width': '' });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadData = function () {
+                $$get(base + "Home/ReadNotifications", d => {
+                    getProjectData = d.project_data;
+                    getTasksData = d.tasks_data;
+                    getTasksList = d.tasks_list;
+                    getTotal = d.total;
+
+                    let output_project = '';
+                    let output_tasks = '';
+                    let output_list = '';
+                    let total = '';
+
+                    for (let i in getProjectData) {
+                        if (getProjectData[i].read_notify == "Y") {
+                            total += `<span class="label label-danger label-pill label-with-icon hidden-xs">${getTotal}</span>`;
+                        } else {
+                            total += `<span class="label label-danger label-pill label-with-icon hidden-xs">${getTotal}</span>`;
+                            output_project += `<a class="list-group-item b-r-0 b-t-0 b-l-0" onclick="loadProjectPage(${getProjectData[i].project_id})"><div class="media"><div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x text-primary"></i><i class="fa fa-info fa-stack-1x fa-fw text-primary"></i></span></div><div class="media-body"><h5 class="m-t-0"><span>${getProjectData[i].username} ได้สร้าง ${getProjectData[i].project_name} ที่มีคุณอยู่</span></h5><p class="text-nowrap small m-b-0"><span>${getProjectData[i].add_dt}</span></p></div></div></a>`;
+                        }
+                    }
+
+                    for (let i in getTasksData) {
+                        output_tasks += `<a class="list-group-item b-r-0 b-t-0 b-l-0" onclick="loadTasksPage(${getTasksData[i].task_id})"><div class="media"><div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x text-primary"></i><i class="fa fa-info fa-stack-1x fa-fw text-primary"></i></span></div><div class="media-body"><h5 class="m-t-0"><span>${getTasksData[i].tasks_name} ได้เพิ่มลงในโปรเจค ${getTasksData[i].project_name} เรียบร้อยแล้ว</span></h5><p class="text-nowrap small m-b-0"><span>${getTasksData[i].add_dt}</span></p></div></div></a>`;
+                    }
+
+                    for (let i in getTasksList) {
+                        total += `<span class="label label-danger label-pill label-with-icon hidden-xs">${getTotal}</span>`;
+                        if (getTasksList[i].status == "1") {
+                            output_list += `<a class="list-group-item b-r-0 b-t-0 b-l-0" onclick="loadTasksPage(${getTasksList[i].task_id})"><div class="media"><div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x text-primary"></i><i class="fa fa-info fa-stack-1x fa-fw text-primary"></i></span></div><div class="media-body"><h5 class="m-t-0"><span>${getTasksList[i].name_task_list} ในระบบงาน ${getTasksList[i].tasks_name} อยู่ระหว่างดำเนินงาน</span></h5><p class="text-nowrap small m-b-0"><span>${getTasksList[i].add_dt}</span></p></div></div></a>`;
+                        }
+                        else if (getTasksList[i].status == "2") {
+                            output_list += `<a class="list-group-item b-r-0 b-t-0 b-l-0" onclick="loadTasksPage(${getTasksList[i].task_id})"><div class="media"><div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x text-warning"></i><i class="fa fa-exclamation fa-stack-1x fa-fw text-warning"></i></span></div><div class="media-body"><h5 class="m-t-0"><span>${getTasksList[i].name_task_list} ในระบบงาน ${getTasksList[i].tasks_name} รอการตรวจสอบจากหัวหน้าโครงการ</span></h5><p class="text-nowrap small m-b-0"><span>${getTasksList[i].add_dt}</span></p></div></div></a>`;
+                        }
+                        else if (getTasksList[i].status == "3") {
+                            output_list += `<a class="list-group-item b-r-0 b-t-0 b-l-0" onclick="loadTasksPage(${getTasksList[i].task_id})"><div class="media"><div class="media-left"><span class="fa-stack fa-lg"><i class="fa fa-circle-thin fa-stack-2x text-success"></i><i class="fa fa-check fa-stack-1x fa-fw text-success"></i></span></div><div class="media-body"><h5 class="m-t-0"><span>${getTasksList[i].name_task_list} ในระบบงาน ${getTasksList[i].tasks_name} เสร็จสิ้นเรียบร้อยแล้ว</span></h5><p class="text-nowrap small m-b-0"><span>${getTasksList[i].add_dt}</span></p></div></div></a>`;
+                        }
+                    }
+
+                    document.getElementById('ProjectAlert').innerHTML = output_project;
+                    document.getElementById('TasksAlert').innerHTML = output_tasks;
+                    document.getElementById('TasksListAlert').innerHTML = output_list;
+                    document.getElementById('Total').innerHTML = total;
+
+                })
+            }
+            loadData();
+
+            loadProjectPage = function (project_id) {
+                var getID = project_id;
+                $$post(JSON.stringify(getID), base + "Home/UpdateReadProject?project_id=" + getID, d => {
+                    if (d.success) {
+                        window.open("Project/Project_Detail?project_id=" + getID);
+                    }
+                    else {
+
+                    }
+                }, err => { }, () => { })
+            }
+
+            loadTasksPage = function (id) {
+                window.open("Project/Tasks_Detail?task_id=" + id);
+            }
+
+            setInterval(function () {
+                loadData();
+            }, 10000);
+
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

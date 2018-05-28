@@ -1,0 +1,99 @@
+﻿
+@{
+	ViewBag.Title = "Tasks Calendar - i-Team Project Management";
+	Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section headerTitle{
+	<h3><i class="fa fa-calendar"></i>  Tasks in Calendar</h3>
+}
+
+@section calendarActive{
+	active
+}
+
+<div class="container" ng-controller="eventProject">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="alert no-bg b-l-warning b-l-3 b-t-gray b-r-gray b-b-gray" role="alert">
+                <img src="~/Content/assets/images/warning.png" height="20" />
+				<strong class="text-white">Warning!</strong>
+                 <span class="text-gray-lighter">โปรดเลือกโปรเจคที่ต้องการแสดงตารางงานบนปฏิทิน</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="hr-text hr-text-left m-t-0 m-b-1">
+				<h6 class="text-white"><strong>Project List</strong></h6>
+			</div>
+			<ul class="nav nav-pills nav-stacked m-b-2">
+				<li role="presentation" ng-repeat="x in dataProject"><a href="{{queryProject(x.project_id)}}"> {{x.project_name}} <span class="badge pull-right">{{eventData.length}}</span></a></li>
+			</ul>
+		</div>
+		<div class="col-lg-9">
+			<div id="full-calendar"></div>
+		</div>
+	</div>
+	<br />
+</div>
+
+@section scripts{
+	<script>
+		var iTeam = angular.module("app", []);
+		iTeam.controller("eventProject", function ($scope, $http, $filter, $location) {
+
+			// Jquery Color Calendar
+			var Colors = Dashboard.Helpers.Colors;
+
+			function elementClassToColor($element) {
+				if ($element.hasClass('event-info'))
+					return Colors.brandInfo;
+				if ($element.hasClass('event-success'))
+					return Colors.brandSuccess;
+				if ($element.hasClass('event-warning'))
+					return Colors.brandWarning;
+				if ($element.hasClass('event-danger'))
+					return Colors.brandDanger;
+
+				return Colors.brandPrimary;
+			};
+
+			// Function : Query String (Project)
+			$scope.queryProject = function (id) {
+				return base + "Calendar/Calendar?project_id=" + id
+			}
+
+			// Function : Read Project
+			$scope.readProject = function () {
+				$$get(base + "Calendar/ReadProject", d => {
+					$scope.dataProject = d.data
+					$scope.$apply();
+				});
+			}
+			$scope.readProject();
+
+			// Function : Read Event (Tasks)
+			$scope.readEvent = function () {
+				$$get(base + "Calendar/ReadEvent?project_id=" + $queryString.project_id, d => {
+					$scope.eventData = d
+					$('#full-calendar').fullCalendar({
+						header: {
+							left: 'prev,next today',
+							center: 'title',
+							right: 'month'
+						},
+						defaultDate: Date.now(),
+						defaultView: 'month',
+						events: $scope.eventData
+					});
+					$scope.$apply();
+				});
+			}
+			$scope.readEvent();
+
+		});
+
+	</script>
+}
+

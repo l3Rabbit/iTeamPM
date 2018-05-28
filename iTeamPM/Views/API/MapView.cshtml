@@ -1,0 +1,245 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+    ViewBag.Title = "Contract - i-Team Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section headerTitle{
+    <h3><i class="fa fa-envelope fa-fw"></i> Contract</h3>
+}
+
+
+
+<div class="container" ng-controller="googleMap">
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default no-bg b-l-2 b-l-gray-lighter b-t-gray b-r-gray b-b-gray">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel-body" style="height:600px">
+                        <div id="map" style="width:80%;height:70%;background-color:none"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-2m-6 col-xs-6">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs12">
+                            <hr />
+                            <b style="font-size:26px;" class="text text-left text-white">iTeam Community</b>
+                            <div class="row" style="font-size:20px;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text text-white">
+                                    <p>มหาวิทยาลัยศรีปทุม บางเขน : 2410/2 ถ.พหลโยธิน เขตจตุจักร กรุงเทพฯ 10900</p>
+                                    <p><i class="fa fa-phone">&nbsp; โทรศัพท์ : 093-9901-758, 095-7040-794</i></p>
+                                    <p><i class="fa fa-envelope">&nbsp; อีเมล์ : admissions@spu.ac.th</i></p>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="panel-body">
+                                <b style="font-size:26px;" class="text text-left text-white">ติดต่อเรา</b>
+                                <form>
+                                    <div class="form-group">
+                                        <label class="text-white">ชื่อ</label>
+                                        <input class="form-control" type="text" placeholder="Enter a name..." value="" ng-model="data.user_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-white">โทรศัพท์ติดต่อ</label>
+                                        <input class="form-control" type="text" placeholder="Enter a phone..." ng-model="data.phone">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-white">Email</label>
+                                        <input class="form-control" type="email" placeholder="Enter a Email..." ng-model="data.email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-white">ข้อความ</label>
+                                        <textarea style="overflow:auto;resize:none" class="form-control" rows="4" placeholder="How can we help you" ng-model="data.des"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-primary button14" ng-click="contactadd()">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var position = {
+            lat: 13.8543716,
+            lng: 100.5855266
+        };
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: position,
+                zoom: 15,
+                styles: [{
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#242f3e'
+                    }]
+                }, {
+                    elementType: 'labels.text.stroke',
+                    stylers: [{
+                        color: '#242f3e'
+                    }]
+                }, {
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#746855'
+                    }]
+                }, {
+                    featureType: 'administrative.locality',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'poi',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#263c3f'
+                    }]
+                }, {
+                    featureType: 'poi.park',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#6b9a76'
+                    }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#38414e'
+                    }]
+                }, {
+                    featureType: 'road',
+                    elementType: 'geometry.stroke',
+                    stylers: [{
+                        color: '#212a37'
+                    }]
+                },
+                {
+                    featureType: 'road',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#9ca5b3'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#746855'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'geometry.stroke',
+                    stylers: [{
+                        color: '#1f2835'
+                    }]
+                }, {
+                    featureType: 'road.highway',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#f3d19c'
+                    }]
+                }, {
+                    featureType: 'transit',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#2f3948'
+                    }]
+                }, {
+                    featureType: 'transit.station',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#d59563'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [{
+                        color: '#17263c'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{
+                        color: '#515c6d'
+                    }]
+                }, {
+                    featureType: 'water',
+                    elementType: 'labels.text.stroke',
+                    stylers: [{
+                        color: '#17263c'
+                    }]
+                }
+                ]
+            });
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzctGdZGyOXwm0urWnUX0KNfsT0Voq2YU&callback=initMap" async
+            defer></script>
+
+</div>
+
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", []);
+        iTeam.controller("googleMap", function ($scope, $http, $filter, $location) {
+            $scope.persons = {};
+            $scope.data = {};
+             
+            $scope.contactadd = function () {
+                var form = {
+                    'data': $scope.data
+                }
+                $$post(JSON.stringify(form), base + "Help/ContactAdd", d => {
+                    if (d.success) {
+                        $scope.data = {};
+                        sweetAlert({
+                            title: "Success",
+                            text: "ส่งข้อความเสร็จสิ้น",
+                            icon: "success",
+                            timer: 3000
+                        })
+                        $scope.data = {};
+                    }
+                    else {
+                        swal({
+                            title: "Error",
+                            text: d.error,
+                            icon: "error",
+                            timer: 5000
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            //$scope.contactadd = function () {
+            //    alert(JSON.stringify($scope.data));
+            //}
+
+        });
+    </script>
+
+}
+

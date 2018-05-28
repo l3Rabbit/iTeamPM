@@ -1,0 +1,1202 @@
+﻿@{
+	var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+	ViewBag.Title = "Team Member - iTeam Project Management";
+	Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section headerTitle{
+	<h3><i class="fa fa-users"></i> Team Member</h3>
+}
+
+@section memberActive{
+	active
+}
+
+<div class="container" ng-controller="memberList">
+	<!-- START EDIT CONTENT -->
+	<div class="row m-t-2">
+		<!-- START Left Column -->
+		<div class="col-lg-2">
+			<div class="row">
+				<div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+					<!-- START Widget - Menu Pills Vertical -->
+					<ul class="nav nav-pills nav-stacked m-b-2">
+						<li ng-class="{ active: isSet(1)}" role="presentation" class="active"><a href="#" ng-click="setTab(1)">All Contacts<span class="badge pull-right">{{total-1}}</span> </a></li>
+						<li ng-class="{ active: isSet(2)}" role="presentation"><a href="#" ng-click="setTab(2)">Groups<span class="badge pull-right">{{totalGroup}}</span> </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- END Left Column -->
+		<div class="col-lg-10">
+
+			<div ng-show="isSet(1)">
+				<!-- START Header with Option -->
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-5 col-xs-12">
+						<div class="input-group">
+							<input type="text" ng-model="searchText" class="form-control" aria-label="..." placeholder="Search..." ng-change="page.setCurrentPage(1);ReadMember()" ng-model-options="{debounce:1000}">
+							<span class="input-group-addon">
+								<i class="fa" ng-class="{'fa-search':!cus_loading, 'fa-spinner':cus_loading,'fa-spin':cus_loading}"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!-- END Header with Option -->
+				<!-- START Table Users -->
+				<div class="table-responsive">
+					<table class="table table-hover m-t-3">
+						<!-- START Head Table -->
+						<thead>
+							<tr>
+								<th class="small text-muted text-uppercase"><strong>Name</strong> </th>
+								<th class="small text-muted text-uppercase"><strong>Email</strong> </th>
+								<th class="small text-muted text-uppercase"><strong>Position</strong> </th>
+								<th class="small text-muted text-uppercase"><strong>Actions</strong> </th>
+							</tr>
+						</thead>
+						<!-- END Head Table -->
+						<tbody>
+							<!-- START Row -->
+							<tr ng-repeat="x in persons" ng-hide="x.user_id == @auth.user_id">
+								<td class="v-a-m">
+									<div class="media">
+										<div class="media-left media-middle media-middle">
+											<a href="#">
+												<div class="avatar"> <img class="media-object img-circle" src="{{x.path_image}}" alt="Avatar"><i class="avatar-status avatar-status-bottom bg-success b-brand-gray-darker"></i> </div>
+											</a>
+										</div>
+										<div class="media-body media-auto">
+											<h5 class="m-b-0"><span>{{x.name_th}}</span></h5>
+											<p class="m-t-0"><span>{{x.username}}</span></p>
+										</div>
+									</div>
+								</td>
+								<td class="v-a-m"> <span>{{x.email}}</span> </td>
+								<td class="v-a-m"> <span>{{linq_position(x.postion)}}</span> </td>
+								<td class="v-a-m">
+									<button type="button" class="btn btn-sm btn-success button14" data-toggle="modal" data-target=".modal-profile" ng-init="descriptionShow=false" ng-click="showMember($index,descriptionShow);">
+										<span class="fa fa-user"></span>
+									</button>
+									@if (auth.is_admin == "Y")
+									{
+										<button type="button" id="btn-delete" class="btn btn-sm btn-danger button14" data-toggle="modal" data-target=".modal-alert-danger" ng-click="checkDelete(x)">
+											<span class="fa fa-trash"></span>
+										</button>
+									}
+								</td>
+							</tr>
+							<!-- END Row -->
+						</tbody>
+					</table>
+				</div>
+				<!-- END Table Users -->
+				<!-- START Pagination -->
+				<div class="row">
+					<div class="col-sm-12 text-center">
+						<div class="text-center">
+							<nav>
+								<ul class="pagination">
+									<li ng-repeat="x in pageArray" ng-class="{'active':x.active}" ng-click="page.setCurrentPage(x.page_no);ReadMember()">
+										<a onclick="return false" href="#" ng-class="{'active':x.active}">{{x.page_no|number:0}}</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<!-- END Pagination -->
+
+			</div>
+
+			<div ng-show="isSet(2)">
+				<!-- START Header with Option -->
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-5 col-xs-12">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search for...">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><i class="fa fa-fw fa-search"></i> </button>
+							</span>
+						</div>
+						<div class="btn-toolbar pull-right hidden-lg hidden-md hidden-sm m-b-2 m-t-2">
+							<div class="btn-group btn-group-justified" role="group" aria-label="...">
+								<a class="btn btn-block btn-default" href="#" role="button" data-toggle="modal" data-target=".modal-add-group"><i class="fa fa-plus"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-6 col-sm-offset-2 col-lg-offset-3 col-md-offset-1 col-sm-4 col-sm-offset-2 hidden-xs">
+						<!-- START Toolbar -->
+						<div class="btn-toolbar pull-right">
+							<div class="btn-group" role="group" aria-label="...">
+								<a href="#" data-toggle="modal" data-target=".modal-add-group" class="btn btn-primary button14"><i class="fa fa-plus"></i> Add Group  </a>
+							</div>
+						</div>
+						<!-- END Toolbar -->
+					</div>
+				</div>
+				<!-- END Header with Option -->
+				<!-- START Default Page -->
+				<div class="col-lg-12 col-md-12" ng-show="!(ViewGroup.length > 0)">
+					<h4 class="text-center">ไม่พบข้อมูลในฐานข้อมูล</h4>
+				</div>
+				<!-- END Default Page -->
+				<!-- START Table Users -->
+				<br />
+				<div class="row">
+					<!-- START Grid -->
+					<div class="col-lg-6 col-md-6" ng-repeat="x in ViewGroup">
+						<!-- START Project Grid -->
+						<div class="panel panel-default b-a-2 no-bg b-gray-dark">
+							<div class="panel-body">
+								<!-- START Media Task Name -->
+								<div class="media m-t-0">
+									<div class="media-body">
+										<!-- START ID & Title Task -->
+										<h4 class="m-b-1">
+											<i class="fa fa-bookmark"></i><a data-toggle="modal" data-target=".modal-ViewGroup" ng-click="showGroup(x)" href="#">
+												{{x.group_name}}
+											</a>
+										</h4>
+										<!-- END ID & Title Task -->
+									</div>
+								</div>
+								<!-- END Media Task Name -->
+								Create by: <a href="#" class="text-white" a data-toggle="modal" data-target=".modal-create" ng-click="showCreate(x);"><span>{{x.username}}</span></a>
+							</div>
+							<ul class="list-group no-bg">
+								<li class="list-group-item no-bg">
+									<a ng-repeat="m in x.memberData"><img class="img-circle avatar avatar-sm" src="{{m.path_image}}" data-toggle="tooltip" data-placement="top" title="{{m.name_th}}"></a>
+								</li>
+								<li class="list-group-item no-bg">
+									<!-- START Dropdown SM Actions -->
+									<div class="btn-group pull-right">
+										<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="fa fa-fw fa-gear"></i> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li><a href="#" data-toggle="modal" data-target=".edit-group" ng-click="Edit(x)"><i class="fa fa-fw fa-folder-open text-gray-lighter m-r-1"></i> Edit</a></li>
+											<li><a href="#" data-toggle="modal" data-target=".modal-alert-danger-project" ng-click="checkDeleteGroup(x)" ng-if="@auth.user_id == x.user_id"><i class="fa fa-fw fa-trash text-gray-lighter m-r-1"></i> Delete</a></li>
+										</ul>
+									</div>
+									<!-- END Dropdown SM Actions -->
+									Start Group: <span>{{x.add_dt | date:"dd/MM/yyyy 'at' h:mma"}}</span>
+								</li>
+							</ul>
+						</div>
+						<!-- END Project Grid -->
+					</div>
+					<!-- END Grid -->
+				</div>
+				<!-- END Table Users -->
+				<!-- START Pagination -->
+				<div class="row" ng-show="(ViewGroup.length > 0)">
+					<div class="col-sm-12 text-center">
+						<div class="text-center">
+							<nav>
+								<ul class="pagination">
+									<li ng-repeat="x in PageGroupArray" ng-class="{'active':x.active}" ng-click="pageGroup.setCurrentPage(x.page_no);ReadGroup()">
+										<a onclick="return false" href="#" ng-class="{'active':x.active}">{{x.page_no|number:0}}</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<!-- END Pagination -->
+
+			</div>
+
+		</div>
+	</div>
+	<!-- END EDIT CONTENT -->
+
+	<!-- START Modal : Add Group Modal -->
+	<div class="modal fade modal-add-group" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><img src="~/Content/assets/images/aag.gif" height="30" /> Add Group <small> หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small></h4>
+				</div>
+				<div class="modal-body">
+
+					<form class="form-horizontal">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="form-group">
+									<label for="add-project-name" class="col-sm-3 control-label"><span class="text-danger">*</span> Group Name</label>
+									<div class="col-sm-8">
+										<input type="text" class="form-control" placeholder="" ng-model="dataGroup.group_name">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="form-group">
+									<label for="add-project-name" class="col-sm-3 control-label"> Description </label>
+									<div class="col-sm-8">
+										<textarea style="overflow:auto;resize:none" input type="text" class="form-control" placeholder="" ng-model="dataGroup.group_description"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-sm-1">
+									&nbsp;
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="add-people-project" class="control-label"> คุณต้องการเพิ่มทีมงานในกลุ่มหรือไม่ ?</label>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-sm-1">
+									&nbsp;
+								</div>
+								<div class="col-sm-10">
+									<div class="form-group">
+										<label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member1 :</strong></label>
+										<div class="input-group select2-bootstrap-append">
+											<select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+												<option value="" selected>โปรดเลือกผู้ใช้งานในกลุ่ม</option>
+												<option ng-repeat="x in persons" value="{{x.user_id}}">{{x.name_th}}</option>
+											</select>
+											<span class="input-group-btn">
+												<button class="btn btn-default button14" type="button" data-select2-open="single-append-text" ng-click="addMember()">
+													<span class="fa fa-plus"></span>
+												</button>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="list-group">
+
+									<a class="list-group-item">
+										<div class="media">
+											<div class="media-left">
+												<div class="avatar avatar-sm">
+													<img class="media-object img-circle" src="@(auth.path_image)" alt="Avatar">
+													<i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+
+												</div>
+											</div>
+											<div class="media-body media-middle">
+												<h5 class="m-t-0 m-b-0"><span>@(auth.name_th)</span></h5>
+												<p class="small text-gray-lighter m-b-0"><span>@(auth.username)</span></p>
+											</div>
+											<div class="media-right">
+												<i class="pull-left" margin:3px 3px auto auto;"></i>
+											</div>
+										</div>
+									</a>
+
+									<a class="list-group-item" ng-repeat="v in selectUser">
+										<div class="media">
+											<div class="media-left">
+												<div class="avatar avatar-sm">
+													<img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+													<i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+
+												</div>
+											</div>
+											<div class="media-body media-middle">
+												<h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+												<p class="small text-gray-lighter m-b-0"><span>{{v.username}}</span></p>
+											</div>
+											<div class="media-right">
+												<span ng-click="closeMember(v.user_id)"><i class="fa fa-times"></i></span>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary button14" data-dismiss="modal" ng-click="newGroup()">Add Group</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- END Modal : Add Group Modal -->
+
+	<!-- START Modal: Profile -->
+	<div class="modal fade modal-profile" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><i class="fa fa-user text-white"></i> Profile Details</h4>
+				</div>
+				<div class="modal-body">
+					<!-- START Avatar with Name -->
+					<div class="media m-l-1">
+						<div class="media-left">
+							<div class="center-block">
+								<div class="avatar avatar-lg center-block">
+									<img class="img-circle center-block m-t-1 m-b-2" src="{{data.path_image}}" alt="Avatar">
+									<i class="avatar-status avatar-status-bottom bg-danger b-brand-gray-darker"></i>
+								</div>
+							</div>
+						</div>
+						<div class="media-body">
+							<h4>
+								<span>{{data.name_th}}</span>
+							</h4>
+							<p class="m-t-0"><span>{{linq_position(data.postion)}}</span></p>
+							<div class="btn-toolbar" role="toolbar">
+
+								<textarea ng-show="descriptionShow" style="overflow:auto;resize:none" input type="text" class="form-control" placeholder="กรอกข้อความถึง {{data.name_th}}" ng-model="setmess"></textarea>
+								<div class="media-footer">
+									<button ng-show="descriptionShow" type="button" class="btn btn-success btn-sm pull-right button14" @*data-dismiss="modal"*@>Send Message</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- END Avatar with Name -->
+					<div class="hr-text hr-text-left">
+						<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+					</div>
+
+					<span>{{data.description}}</span>
+
+					<!-- Tabs Buttons -->
+					<ul class="nav nav-tabs m-t-3 tab-color-rangoon">
+						<li role="presentation" class="active">
+							<a data-toggle="tab" href="#tab-detail-contact-2" role="tab">Detail Contact</a>
+						</li>
+						<li role="presentation">
+							<a data-toggle="tab" href="#tab-activity" role="tab">Project List</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+
+						<!-- START Tab: Detail Contact -->
+						<div class="tab-pane fade in active p-r-1 tab-color-rangoon" id="tab-detail-contact-2" role="tabpanel">
+							<br /> <br />
+							<dl class="dl-horizontal text-left">
+								<dt class="text-left">Phone </dt>
+								<dd class="text-left text-white"><span>{{data.phone}}</span></dd>
+								<dt class="text-left">Line </dt>
+								<dd class="text-left text-white"><a href="http://line.me/ti/p/~{{data.line_id}}"><span>{{data.line_id}}</span></a></dd>
+								<dt class="text-left">Email </dt>
+								<dd class="text-left text-white"><a href="#"><span>{{data.email}}</span></a></dd>
+
+							</dl>
+
+
+						</div>
+						<!-- END Tab: Detail Contact -->
+						<!-- START Tab: Activity -->
+						<div class="tab-pane fade p-r-1" id="tab-activity" role="tabpanel">
+							<div class="timeline timeline-datetime">
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Project</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-primary"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">2 Project</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-endaveour"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">8 Project</h4>
+									</div>
+								</div>
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Tasks</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-success"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">6 Task</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-caper"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">28 Task</h4>
+									</div>
+								</div>
+							</div>
+							<div class="timeline timeline-datetime">
+								<div class="timeline-item p-r-1">
+								</div>
+							</div>
+						</div>
+						<!-- END Tab: Activity -->
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Profile -->
+
+	<!-- START Modal: Create By Profile -->
+	<div class="modal fade modal-create" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><img src="~/Content/assets/images/pof.gif" height="30" /> Profile Details</h4>
+				</div>
+				<div class="modal-body">
+					<!-- START Avatar with Name -->
+					<div class="media m-l-1">
+						<div class="media-left">
+							<div class="center-block">
+								<div class="avatar avatar-lg center-block">
+									<img class="img-circle center-block m-t-1 m-b-2" src="{{createBy.path_image}}" alt="Avatar">
+									<i class="avatar-status avatar-status-bottom bg-danger b-brand-gray-darker"></i>
+								</div>
+							</div>
+						</div>
+						<div class="media-body">
+							<h4>
+								<span>{{createBy.name_th}}</span>
+							</h4>
+							<p class="m-t-0"><span>{{linq_position(createBy.postion)}}</span></p>
+							<div class="btn-toolbar" role="toolbar">
+
+							</div>
+						</div>
+					</div>
+					<!-- END Avatar with Name -->
+					<div class="hr-text hr-text-left">
+						<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+					</div>
+
+					<span>{{createBy.description}}</span>
+
+					<!-- Tabs Buttons -->
+					<ul class="nav nav-tabs m-t-3 tab-color-rangoon">
+						<li role="presentation" class="active">
+							<a data-toggle="tab" href="#tab-detail-contact-2" role="tab">Detail Contact</a>
+						</li>
+						<li role="presentation">
+							<a data-toggle="tab" href="#tab-activity" role="tab">Project List</a>
+						</li>
+					</ul>
+					<!-- START Tabs Content -->
+
+					<div class="tab-content">
+						<!-- START Tab: Detail Contact -->
+						<div class="tab-pane fade in active p-r-1 tab-color-rangoon" id="tab-detail-contact-2" role="tabpanel">
+							<br /> <br />
+							<dl class="dl-horizontal text-left">
+								<dt class="text-left">Phone </dt>
+								<dd class="text-left text-white"><span>{{createBy.phone}}</span></dd>
+								<dt class="text-left">Line </dt>
+								<dd class="text-left text-white"><span>{{createBy.line_id}}</span></dd>
+								<dt class="text-left">Email </dt>
+								<dd class="text-left text-white"><a href="#"><span>{{createBy.email}}</span></a></dd>
+
+							</dl>
+
+
+						</div>
+						<!-- END Tab: Detail Contact -->
+						<!-- START Tab: Activity -->
+						<div class="tab-pane fade p-r-1" id="tab-activity" role="tabpanel">
+							<div class="timeline timeline-datetime">
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Project</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-primary"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">2 Project</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-endaveour"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">8 Project</h4>
+									</div>
+								</div>
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Tasks</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-success"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">6 Task</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-caper"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">28 Task</h4>
+									</div>
+								</div>
+							</div>
+							<div class="timeline timeline-datetime">
+								<div class="timeline-item p-r-1">
+								</div>
+							</div>
+						</div>
+						<!-- END Tab: Activity -->
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Create By Profile -->
+
+	<!-- Start Modal: View Group -->
+	<div class="modal fade modal-ViewGroup" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><img src="~/Content/assets/images/MemberG.png" height="30" /> View Group </h4>
+
+				</div>
+
+				<div class="modal-body">
+					<!-- START Avatar with Name -->
+					<div class="media m-l-1">
+						<div class="media-left">
+							<div class="center-block">
+
+							</div>
+						</div>
+						<div class="media-body">
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Group Name</strong></h6>
+							</div>
+							<h4>{{CurrentX.group_name}}</h4>
+
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Create By</strong></h6>
+							</div>
+							<h4>{{CurrentX.username}}</h4>
+
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+							</div>
+							<h4>{{CurrentX.group_description}}</h4>
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Member</strong></h6>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="list-group">
+										<a class="list-group-item" ng-repeat="v in CurrentX.memberData">
+											<div class="media">
+												<div class="media-left">
+													<div class="avatar avatar-sm">
+														<img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+														<i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+													</div>
+												</div>
+												<div class="media-body media-middle">
+													<h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+													<p class="small text-gray-lighter m-b-0"><span>{{v.username}}</span></p>
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END Avatar with Name -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: View Group -->
+
+	<!-- Start Modal: Edit Group -->
+	<div class="modal fade edit-group" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><img src="~/Content/assets/images/edit.gif" height="30" /> Edit Group </h4>
+				</div>
+				<div class="modal-body">
+					<!-- START Avatar with Name -->
+					<div class="media m-l-1">
+						<div class="media-left">
+							<div class="center-block">
+
+							</div>
+						</div>
+						<div class="media-body">
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Group Name</strong></h6>
+							</div>
+							<input type="text" class="form-control" placeholder="Enter Here..." ng-model="X1.group_name">
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Create By</strong></h6>
+							</div>
+							<h4>{{X1.username}}</h4>
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+							</div>
+							<input type="text" class="form-control" placeholder="Enter Here..." ng-model="X1.group_description">
+							<div class="hr-text hr-text-left">
+								<h6 class="text-white bg-rangoon-i"><strong>Member</strong></h6>
+							</div>
+							<div class="">
+								<a class="btn btn-default button14" ng-init="addMemberEdit=false" ng-click="addMemberEdit=!addMemberEdit;deleteMemberEdit=false"><i class="fa fa-user-plus"></i></a>
+								<a class="btn btn-default button14" ng-init="deleteMemberEdit=false" ng-click="deleteMemberEdit=!deleteMemberEdit;addMemberEdit=false"><i class="fa fa-trash"></i></a>
+							</div>
+							<div class="row">
+								<div class="col-sm-1">
+									&nbsp;
+								</div>
+								<div class="col-sm-10" ng-show="addMemberEdit">
+									<div class="form-group">
+										<label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+										<div class="input-group select2-bootstrap-append">
+											<select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons1">
+												<option value="" selected>โปรดเลือกผู้ใช้งานลงในกลุ่ม</option>
+												<option ng-repeat="x in persons" value="{{x.user_id}}">{{x.name_th}}</option>
+											</select>
+											<span class="input-group-btn">
+												<button class="btn btn-default" type="button" data-select2-open="single-append-text" ng-click="addMember1()">
+													<span class="fa fa-plus"></span>
+												</button>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="list-group">
+										<div class="list-group-item" ng-repeat="v in X1.memberData">
+											<div class="media-left">
+												<div class="media-left">
+													<div class="avatar avatar-sm">
+														<img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+														<i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+													</div>
+												</div>
+												<div class="media-body media-middle media-right">
+													<h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+													<p class="small text-gray-lighter m-b-0">
+														<span>{{v.username}}</span>
+													</p>
+												</div>
+											</div>
+											<div class="media-right">
+												<label>
+													<input type="checkbox" ng-show="deleteMemberEdit && {{v.user_id != X1.add_user}}" ng-checked="exists(v, selected)" ng-click="toggle(v, selected)" />
+												</label>
+											</div>
+										</div>
+									</div>
+									<a class="list-group-item" ng-repeat="v in selectUser1">
+										<div class="media">
+											<div class="media-left">
+												<div class="avatar avatar-sm">
+													<img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+													<i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+												</div>
+											</div>
+											<div class="media-body media-middle">
+												<h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+												<p class="small text-gray-lighter m-b-0"><span>{{v.username}}</span></p>
+											</div>
+											<div class="media-right">
+												<span ng-click="closeMember1(v.user_id)"><i class="fa fa-times"></i></span>
+											</div>
+										</div>
+									</a>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary button14" data-dismiss="modal" ng-click="Editgroup(); deleteMemberGroup(selected);">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Edit Group -->
+
+	<!-- Start Modal: Delete Member in Group -->
+	<div class="modal modal-danger fade modal-delete-membergroup" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<!-- START Left Chat -->
+					<div class="media">
+						<div class="media-left">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x text-danger"></i>
+								<i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+							</span>
+						</div>
+						<div class="media-body">
+							<h4>คุณต้องการลบ {{deleteDatamemberGroup.name_th}} ออกจากทีมใช่หรือไหม?</h4>
+							<p>คุณไม่สามารถโหลดไฟล์หรือข้อมูลจากบุคคลนี้ได้อีกต่อไป.</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- START Buttons -->
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger button14" data-dismiss="modal" ng-click="deleteMemberGroup(v)">Yes, Delete</button>
+					<!-- END Buttons -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Delete Member in Group -->
+
+	<!-- START Modal: Alert Danger Member -->
+	<div class="modal modal-danger fade modal-alert-danger" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<!-- START Left Chat -->
+					<div class="media">
+						<div class="media-left">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x text-danger"></i>
+								<i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+							</span>
+						</div>
+						<div class="media-body">
+							<h4>คุณต้องการลบ {{deleteData.name_th}} ออกจากระบบใช่หรือไหม?</h4>
+							<p>คุณไม่สามารถโหลดไฟล์หรือข้อมูลจากบุคคลนี้ได้อีกต่อไป.</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- START Buttons -->
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteMember(x)">Yes, Delete</button>
+					<!-- END Buttons -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Alert Danger Member -->
+
+	<!-- START Modal: Alert Danger -->
+	<div class="modal modal-danger fade modal-alert-danger-project" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<!-- START Left Chat -->
+					<div class="media">
+						<div class="media-left">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x text-danger"></i>
+								<i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+							</span>
+						</div>
+						<div class="media-body">
+							<h4>คุณต้องการลบกลุ่ม " {{deleteDataGroup.group_name}} " ออกจากระบบใช่หรือไหม?</h4>
+							<p>คุณไม่สามารถกู้คืนกลุ่มหรือข้อมูลจากกลุ่มนี้ได้อีกต่อไป.</p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<!-- START Buttons -->
+					<button type="button" class="btn btn-default" data-dismiss="modal">ไม่</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteGroup(x)">ใช่, ลบเลย</button>
+					<!-- END Buttons -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Alert Danger -->
+
+</div>
+
+@section scripts{
+	<script>
+		var base = $("base").attr("href")
+		var iTeam = angular.module("app", []);
+		iTeam.controller("memberList", function ($scope, $http, $filter, $location) {
+
+
+			$scope.ViewGroup = [];
+			$scope.MemberGroup = {};
+			$scope.persons = [];
+			$scope.data = {};
+			$scope.dataGroup = {};
+			$scope.deleteData = {};
+			$scope.deleteDataGroup = {};
+			$scope.deleteDatamemberGroup = {};
+			$scope.tab = 1;
+			$scope.idFake = "@(auth.user_id)";
+			$scope.idFake1 = "";
+			$scope.selectUser = [];
+			$scope.selectUser1 = [];
+			$scope.selectCUser = [];
+			$scope.form = [];
+			$scope.setmess = "";
+
+			$scope.searchText = "";
+
+			var i = 0;
+
+			$scope.position_arr = [
+				{ id: '1', name: 'Project Management' },
+				{ id: '2', name: 'Human Resource' },
+				{ id: '3', name: 'Web Application Programmer' },
+				{ id: '4', name: 'Software Programmer' },
+				{ id: '5', name: 'Accounting' },
+				{ id: '6', name: 'Staff' },
+			]
+
+			$scope.linq_position = function (id) {
+				return $linq($scope.position_arr).where(x => x.id == id).select(s => s.name).firstOrDefault();
+			}
+
+			// Pagination
+			$scope.page = new Pagination();
+			$scope.page.setItemsPerPage(10);
+			$scope.pageArray = $scope.page.createPagesArray();
+
+			$scope.pageGroup = new Pagination();
+			$scope.pageGroup.setItemsPerPage(10);
+			$scope.PageGroupArray = $scope.pageGroup.createPagesArray();
+
+			$scope.setTab = function (newTab) {
+				$scope.tab = newTab;
+			}
+
+			$scope.isSet = function (tabNum) {
+				return $scope.tab === tabNum;
+			}
+
+			// Read Member in Database
+			$scope.cus_loading = false;
+			$scope.ReadMember = function () {
+				$scope.cus_loading = true;
+				var p = $scope.page;
+				var formData = new FormData();
+				formData.append("take", p.getItemsPerPage());
+				formData.append("skip", p.skipItems());
+				formData.append('text', $scope.searchText || '');
+
+				$$get(base + "Member/ReadMember?skip=" + p.skipItems() + "&take=" + p.getItemsPerPage() + "&text=" + $scope.searchText, d => {
+					$scope.total = d.total;
+					p.setTotalItems(d.total);
+					$scope.pageArray = p.createPagesArray();
+					$scope.persons = d.data;
+					$scope.cus_loading = false;
+					$scope.$apply();
+				}, err => { }, () => { })
+			}
+			$scope.ReadMember();
+
+			// Read Group in Database
+			$scope.ReadGroup = function () {
+				var p = $scope.pageGroup;
+				$$get(base + "Member/ViewGroup?skip=" + p.skipItems() + "&take=" + p.getItemsPerPage(), d => {
+					$scope.totalGroup = d.total;
+					p.setTotalItems(d.total);
+					$scope.PageGroupArray = p.createPagesArray();
+					$scope.ViewGroup = d.data;
+				}, err => { }, () => { })
+			}
+			$scope.ReadGroup();
+
+			//Show Group in Database
+			$scope.showGroup = function (x) {
+				$scope.CurrentX = x;
+			}
+
+			// Edit Group
+			$scope.Edit = function (x) {
+				$scope.X1 = x;
+				$scope.XX1 = x.group_id;
+				$scope.selected = [];
+				$scope.selectUser1 = [];
+			}
+
+			$scope.selected = [];
+
+			$scope.toggle = function (v, list) {
+				var idx = list.indexOf(v);
+				if (idx > -1) {
+					list.splice(idx, 1);
+				}
+				else {
+					list.push(v);
+				}
+			};
+
+			$scope.exists = function (item, list) {
+				return list.indexOf(item) > -1;
+			};
+
+			// Edit Group in Database
+			$scope.Editgroup = function (x) {
+				$scope.XX2 = {
+					'group_id': $scope.XX1,
+					'user_id': $scope.selectUser1,
+				};
+
+				var form = {
+					'header': $scope.X1,
+					'detail': $scope.selectUser1
+				};
+				$$post(JSON.stringify(form), base + "Member/Editgroup", d => {
+					if (d.success) {
+						sweetAlert({
+							title: "Success",
+							text: "ลงทะเบียนกลุ่มเสร็จสิ้น",
+							icon: "success",
+							timer: 3000
+						});
+						$scope.ReadGroup();
+					}
+					else {
+						sweetAlert({
+							title: "Error",
+							text: d.error,
+							icon: "error",
+							timer: 5000
+						});
+					}
+					$scope.dataGroup = {};
+					$scope.selected = [];
+					$scope.selectUser1 = [];
+					$scope.ReadMember();
+					$scope.$apply();
+				}, err => { }, () => { })
+			}
+
+			// Show Member in Database
+			$scope.showMember = function (index, descriptionShow) {
+				$scope.currentIndex = index;
+				$scope.data.name_th = $scope.persons[index].name_th;
+				$scope.data.postion = $scope.persons[index].postion;
+				$scope.data.path_image = $scope.persons[index].path_image;
+				$scope.data.phone = $scope.persons[index].phone;
+				$scope.data.line_id = $scope.persons[index].line_id;
+				$scope.data.email = $scope.persons[index].email;
+				$scope.data.description = $scope.persons[index].description;
+				$scope.descriptionShow = false;
+				$scope.setmess = "";
+
+			}
+
+			// Function : Add New Group
+			$scope.newGroup = function (x) {
+				$scope.selectUser.push({
+					'user_id': $scope.idFake,
+				})
+				var form = {
+					'header': $scope.dataGroup,
+					'detail': $scope.selectUser
+				};
+				$$post(JSON.stringify(form), base + "Member/NewGroup", d => {
+					if (d.success) {
+						sweetAlert({
+							title: "Success",
+							text: "ลงทะเบียนกลุ่มเสร็จสิ้น",
+							icon: "success",
+							timer: 3000
+						});
+						$scope.ReadGroup();
+					}
+					else {
+						sweetAlert({
+							title: "Error",
+							text: d.error,
+							icon: "error",
+							timer: 5000
+						});
+					}
+					$scope.dataGroup = {};
+					$scope.ReadMember();
+					$scope.$apply();
+				}, err => { }, () => { })
+			}
+
+			// Check Delete in Database
+			$scope.checkDelete = function (x) {
+				$scope.deleteData = x;
+			}
+
+			// Check Delete in Database
+			$scope.checkDeleteGroup = function (x) {
+				$scope.deleteDataGroup = x;
+			}
+
+			$scope.CheckdeletememberGroup = function (v) {
+				$('.modal-delete-membergroup').modal('show');
+				$scope.deleteDatamemberGroup = v;
+			}
+
+			// Function : Delete Member in Database
+			$scope.deleteMember = function (x) {
+				$$post(JSON.stringify($scope.deleteData), base + "Member/DeleteMember", d => {
+					if (d.success) {
+						sweetAlert({
+							title: "Success",
+							text: "ลบสมาชิกเสร็จสิ้น",
+							icon: "success",
+							timer: 3000
+						}).then(function () {
+							$scope.ReadMember();
+						});
+					}
+					else {
+						sweetAlert({
+							title: "Success",
+							text: d.error,
+							icon: "error",
+							timer: 3000
+						});
+					}
+					$scope.$apply();
+				}, err => { }, () => { })
+			}
+
+			// Function : Delete Member in Group
+			$scope.deleteMemberGroup = function (x) {
+				var form = {
+					'detail': $scope.selected
+				};
+				$$post(JSON.stringify(form), base + "Member/DeleteMemberGroup", d => {
+					if (d.success) {
+						$scope.ReadGroup();
+					}
+					else {
+						swal({
+							title: "Success",
+							text: d.error,
+							icon: "error",
+							timer: 3000
+						});
+					}
+					$scope.$apply();
+				}, err => { }, () => { })
+
+			}
+
+			// Function : Delete Group in Database
+			$scope.deleteGroup = function (x) {
+				$$post(JSON.stringify($scope.deleteDataGroup), base + "Member/DeleteGroup", d => {
+					if (d.success) {
+						sweetAlert({
+							title: "Success",
+							text: "ลบกลุ่มเสร็จสิ้น",
+							icon: "success",
+							timer: 3000
+						});
+					}
+					else {
+						sweetAlert({
+							title: "Success",
+							text: d.error,
+							icon: "error",
+							timer: 3000
+						});
+					}
+					$scope.ReadGroup();
+					$scope.$apply;
+				}, err => { }, () => { })
+			}
+
+			// Function : Add Member in Group (Row)
+			$scope.addMember = function () {
+				//user id ที่ตรงกับ ตัวที่เลือกและ user_id ต้องไม่ตรงกับ id ทีlogin เก็บไว้ใน j
+				let j = $linq($scope.persons).where(x => x.user_id == $scope.selectPersons && x.user_id != $scope.idFake).firstOrDefault();
+				if (j != null) {
+					if ($linq($scope.selectUser).where(x => x.user_id == $scope.selectPersons).firstOrDefault() == null) {
+						$scope.selectUser.push(JSON.parse(JSON.stringify(j)))
+					}
+				}
+			}
+
+			// Function : Remove Member in Group (Row)
+			$scope.closeMember = function (user_id) {
+				let selectUser = JSON.parse(JSON.stringify($scope.selectUser))
+				//แสดงทุกตัวที่ user_id!=userId > selectUser
+				selectUser = $linq(selectUser).where(x => !(x.user_id == user_id)).toArray()
+				//แสดง selectUser
+				$scope.selectUser = selectUser;
+			}
+
+			$scope.addMember1 = function () {
+				//user id ที่ตรงกับ ตัวที่เลือกและ user_id ต้องไม่ตรงกับ id ทีlogin เก็บไว้ใน j
+				let j = $linq($scope.persons).where(x => x.user_id == $scope.selectPersons1 && x.user_id != $scope.idFake).firstOrDefault();
+				if (j != null) {
+					if ($linq($scope.X1.memberData).where(x => x.user_id == $scope.selectPersons1).firstOrDefault() == null) {
+						$scope.XX1
+						$scope.selectUser1.push(JSON.parse(JSON.stringify(j)))
+
+					}
+				}
+			}
+
+			// Function : Remove Member in Group (Row)
+			$scope.closeMember1 = function (user_id) {
+				let selectUser1 = JSON.parse(JSON.stringify($scope.selectUser1))
+				//แสดงทุกตัวที่ user_id!=userId > selectUser1
+				selectUser1 = $linq(selectUser1).where(x => !(x.user_id == user_id)).toArray()
+				//แสดง selectUser1
+				$scope.selectUser1 = selectUser1;
+			}
+
+			// Function : Show Create By
+			$scope.showCreate = function (x) {
+				$$get(base + "Member/CreateBy?user_id=" + x.add_user, d => {
+					$scope.createBy = d;
+					$scope.$apply();
+				});
+			}
+
+			$scope.reload = function () {
+				location.reload();
+			}
+
+		});
+	</script>
+}
+
+
+
+

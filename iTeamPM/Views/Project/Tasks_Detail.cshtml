@@ -1,0 +1,1076 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+    ViewBag.Title = "Tasks Details - iTeam Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section detailActive{
+    active
+}
+
+@section headerTitle{
+    <h3><i class="fa fa-folder-open"></i> Task Details</h3>
+}
+
+<div class="container" ng-controller="taskDetail">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info" role="alert" ng-show="dataTasks.status != 'Y'">
+                <i class="fa fa-fw fa-info text-primary m-r-1"></i>
+                <strong>Active!</strong>
+                โปรเจคนี้กำลังอยู่ระหว่างดำเนินงาน.
+            </div>
+            <div class="alert alert-success" role="alert" ng-show="dataTasks.status == 'Y'">
+                <i class="fa fa-fw fa-check text-success m-r-1"></i>
+                <strong>Success!</strong>
+                โปรเจคนี้ดำเนินงานเสร็จสิ้นเรียบร้อยแล้ว.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="hr-text hr-text-left m-t-0 m-b-1">
+                <h6 class="text-white"><strong>Task Details</strong></h6>
+            </div>
+            <!-- START Table Task Details -->
+            <table class="table table-condensed">
+                <tbody>
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m b-t-0">
+                            Project
+                        </td>
+                        <td class="v-a-m b-t-0 text-right">
+                            {{dataTasks.project_name}}
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Create by
+                        </td>
+                        <td class="v-a-m text-right">
+                            <span>{{dataTasks.username}}</span>
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Start Date
+                        </td>
+                        <td class="v-a-m text-right text-white">
+                            {{dataTasks.date_start | date:"dd/MM/yyyy"}}
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Due Date
+                        </td>
+                        <td class="v-a-m text-right text-white">
+                            {{dataTasks.date_end | date:"dd/MM/yyyy"}}
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Priority
+                        </td>
+                        <td class="v-a-m text-right">
+                            <button class="btn btn-default btn-xs dropdown-toggle button14" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i ng-class="statusClass('', dataTasks.tasks_prioity)"></i> {{dataPrioity(dataTasks.tasks_prioity)}}
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Progress
+                        </td>
+                        <td class="v-a-m text-right text-white">
+                            {{progressTasks | number: 0}}%
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Task ID
+                        </td>
+                        <td class="v-a-m text-right text-white">
+                            # {{dataTasks.task_id}}
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr>
+                        <td class="v-a-m">
+                            Date Assigned
+                        </td>
+                        <td class="v-a-m text-right text-white">
+                            {{dataTasks.add_dt | date:"dd/MM/yyyy 'at' h:mma"}}
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                    <!-- START ROW Task Details  -->
+                    <tr ng-show="dataTasks.add_user == @auth.user_id" ng-hide="dataTasks.status == 'Y'">
+                        <td class="v-a-m" ng-show="dataTasks.add_user == @auth.user_id">
+                            Finsh Tasks
+                        </td>
+                        <td align="right" class="v-a-m" ng-show="dataTasks.add_user == @auth.user_id" ng-if="progressTasks == 100">
+                            <a class="btn btn-success btn-sm button14" ng-click="status()"><i class="fa fa-save"></i> Close Tasks</a>
+                        </td>
+                    </tr>
+                    <!-- END ROW Task Details  -->
+                </tbody>
+            </table>
+            <!-- END Table Task Details -->
+            <div class="hr-text hr-text-left m-t-2 m-b-1">
+                <h6 class="text-white"><strong>Assigned to</strong></h6>
+            </div>
+            <!-- START Widget - Menu Pills Vertical -->
+            <div class="scroll-300 custom-scrollbar">
+                <ul class="nav nav-pills nav-stacked">
+                    <!-- START User Online (Small) -->
+                    <li role="presentation" ng-repeat="v in dataTasks.memberTasks">
+                        <a data-toggle="modal" data-target=".modal-create" ng-click="showCreate(v)">
+                            <div class="media">
+                                <div class="media-left">
+                                    <div class="avatar avatar-sm">
+                                        <img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+                                    <p class="small text-gray-lighter m-b-0"><span>{{linq_position(v.postion)}}</span></p>
+                                </div>
+                                <div class="media-right">
+                                    <i class="fa fa-fw fa-circle text-success" data-toggle="tooltip" data-placement="left" title="Online"></i>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END Widget - Menu Pills Vertical -->
+        </div>
+        <div class="col-lg-9">
+            <div class="row m-b-2">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <h2>Project / {{dataTasks.project_name}}</h2>
+                    <div class="btn-toolbar pull-right hidden-lg hidden-md hidden-sm">
+                        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                            <a class="btn btn-block btn-default button14" href="#" role="button"><i class="fa fa-pencil"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-xs-6 col-lg-offset-1 col-md-offset-1 col-sm-4 col-sm-offset-2 hidden-xs">
+                    <!-- START Toolbar -->
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group" role="group" aria-label="...">
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <a ng-class="{'btn btn-default disabled' : dataTasks.status == 'Y', 'btn btn-default button14' : dataTasks.status != 'Y'}" ng-if="dataTasks.add_user == @auth.user_id" ng-hide="dataTasks.status == 'Y'" ng-click="showEditTasks()">
+                                <span class="hidden-md hidden-sm hidden-xs"></span><i class="fa fa-pencil"> Edit Task</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- END Toolbar -->
+                </div>
+            </div>
+            <div class="panel panel-default b-a-2 no-bg b-gray-dark">
+                <div class="panel-body">
+                    <div class="media media-auto m-b-3">
+                        <div class="media-left">
+                            <label class="m-t-0">
+                            </label>
+                        </div>
+                        <div class="media-body p-l-1">
+                            <h3 class="f-w-300 m-t-0 m-b-1"><span class="text-muted m-r-1">#{{dataTasks.task_id}}</span> <span>{{dataTasks.tasks_name}} </span> </h3>
+                        </div>
+                    </div>
+                    <p><span>Description</span></p>
+                    <h4>
+                        <span>
+                            {{dataTasks.tasks_description}}
+                        </span>
+                    </h4>
+
+                    <!-- START Tasks List Section -->
+                    <div class="hr-text hr-text-left m-t-3">
+                        <h6 class="text-white"><strong class="m-r-1">Tasks List </strong></h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    <div class="alert no-bg b-l-warning b-l-3 b-t-gray b-r-gray b-b-gray" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#xD7;</span></button>
+                                        <strong class="text-white">คำเตือน!</strong> <span class="text-gray-lighter">ทำระบบงานเสร็จแล้ว โปรด Comment แจ้งด้วย.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <a ng-class="{'btn btn-default pull-left disabled' : dataTasks.status == 'Y', 'btn btn-default pull-left button14' : dataTasks.status != 'Y'}" data-target=".new-list" data-toggle="modal" ng-if="dataTasks.add_user == @auth.user_id" ng-hide="dataTasks.status == 'Y'"><i class="fa fa-plus"> Append List</i></a>
+                                    </div>
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th width="10">&nbsp;</th>
+                                                <th width="300">Tasks</th>
+                                                <th width="300">Remark</th>
+                                                <th width="300">Status</th>
+                                                <th width="110">&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in dataReadTaskList">
+                                                <td width="10">
+                                                    <input type="checkbox" class="form-control" ng-model="x.active" ng-true-value="'Y'" ng-false-value="'N'" ng-show="dataTasks.add_user == @auth.user_id" ng-disabled="dataTasks.status == 'Y'" />
+                                                </td>
+                                                <td width="300">
+                                                    <label class="text-white">{{x.name_task_list}}</label>
+                                                </td>
+                                                <td width="300">
+                                                    <input type="text" class="form-control form-control-sm" ng-model="x.remark_list" ng-disabled="x.active == 'Y'" />
+                                                </td>
+                                                <td width="300">
+                                                    <label ng-class="{'text-white': x.status == '1', 'text-primary': x.status == '2', 'text-success': x.status == '3'}">{{dataStatus(x.status)}}</label>
+                                                </td>
+                                                <td width="110">
+                                                    <a ng-class="{'btn btn-sm btn-primary button14': x.status == '1','btn btn-sm btn-warning button14': x.status == '2'}" ng-hide="x.active == 'Y'" ng-click="btn.changeStatus(x)"><i class="fa fa-fw" ng-class="{'fa-save': x.status == '1', 'fa-redo': x.status == '2'}"></i></a>
+                                                    <a class="btn btn-sm btn-danger button14" ng-hide="x.active == 'Y'" ng-click="btn.deleteList(x)"><i class="fa fa-fw fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td ng-show="!(dataReadTaskList.length > 0)" align="center" colspan="5"><i class="fa fa-spin fa-spinner"></i> ไม่พบข้อมูล</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="form-group">
+                                        <a ng-class="{'btn btn-success disabled' : dataTasks.status == 'Y', 'btn btn-success button14' : dataTasks.status != 'Y'}" ng-click="updateList()" ng-if="dataTasks.add_user == @auth.user_id" ng-hide="dataTasks.status == 'Y'"><i class="fa fa-save"> Save Change</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- START Table Attachment -->
+                    <div class="hr-text hr-text-left m-t-3">
+                        <h6 class="text-white"><strong class="m-r-1">Attachments </strong></h6>
+                    </div>
+                    <table class="table table-hover m-b-1">
+                        <tbody>
+                            <!-- START ROW Attachment  -->
+                            <tr ng-repeat="f in dataFile">
+                                <td class="v-a-m b-t-0">
+                                    <div class="media media-auto">
+                                        <div class="media-left">
+                                            <span class="fa-stack fa-lg">
+                                                <i class="fa fa-square fa-stack-2x text-primary"></i>
+                                                <i class="fa fa-file-archive fa-stack-1x fa-inverse text-white"></i>
+                                            </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <span class="media-heading text-white">{{f.file_name}}</span>
+                                            <br> by <span>{{f.username}}</span> <span class="text-muted">&#xB7;</span> <span class="media-heading"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-right v-a-m b-t-0 w-5">
+                                    <a class="btn btn-default button14" href="@(Url.Content("~/Project/Download?path=")){{f.path_file}}" target="_blank">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <!-- END ROW Attachment  -->
+                        </tbody>
+                    </table>
+                    <table class="table table-hover m-b-1">
+                        <tbody>
+                            <tr>
+                                <td class="v-a-m b-t-0">
+                                    <div class="media media-auto">
+                                        <div class="media-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <input type="file" id="File" name="File" ng-hide="dataTasks.status == 'Y'" />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    <br />
+                                                    <button type="button" class="btn btn-default button14" ng-click="sendData(dataTasks.task_id)" ng-hide="dataTasks.status == 'Y'">
+                                                        <i class="fa fa-upload"> Upload File</i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- END Table Attachment -->
+                    <!-- START Comments Section -->
+                    <div class="hr-text hr-text-left m-t-3">
+                        <h6 class="text-white"><strong class="m-r-1">Comments </strong></h6>
+                    </div>
+                    <ul class="media-list" ng-repeat="c in dataReadComment">
+                        <!-- START Comment -->
+                        <li class="media m-t-1">
+                            <div class="media-left">
+                                <div class="avatar">
+                                    <img class="media-object img-circle" alt="Avatar" src="{{c.image}}">
+                                    <i class="avatar-status avatar-status-bottom bg-success b-brand-gray-darker"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="m-t-0"><span style="color:#808080">{{c.username}}</span><small><span> at {{c.add_dt | date:"dd/MM/yyyy 'at' h:mma"}} </span></small></h5>
+                                <span style="color:#ffffff">{{c.comment}}</span>
+                                <br>
+                                <div class="m-t-1">
+                                    <a class="text-danger" style="cursor:pointer;" ng-show="c.add_user == @auth.user_id" ng-click="checkDeleteComment(c)">Delete</a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END Comment -->
+                    </ul>
+                </div>
+
+                <div class="panel-footer">
+                    <!-- START Send Message Input -->
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default button14" type="button"><i class="fa fa-fw far fa-comments"></i></button>
+                        </span>
+                        <input type="text" class="form-control" placeholder="Your Message..." ng-model="dataComment.comment">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary button14" type="button" ng-click="newComment()">Send</button>
+                        </span>
+                    </div>
+                    <!-- END Send Message Input -->
+                </div>
+                <!-- END Comments Section -->
+            </div>
+        </div>
+    </div>
+
+    <!-- START Modal: Edit Tasks -->
+    <div class="modal fade edit-tasks" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title"><i class="fa fa-tasks"></i> Edit Tasks</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span class="text-danger">*</span> Tasks Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="" ng-model="currentTasks.tasks_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                <textarea style="overflow:auto;resize:none" class="form-control" rows="4" ng-model="currentTasks.tasks_description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Start Tasks</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" ng-model="currentTasks.date_start" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">End Tasks</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="date" min="{{dateDefault.range_start}}" max="{{dateDefault.range_end}}" class="form-control" ng-model="currentTasks.date_end">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary button14" ng-click="editTasks()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: Edit Tasks -->
+
+    <!-- START Modal: New List Tasks -->
+    <div class="modal fade new-list" style="margin-top:5%" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Tasks List</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-default">
+                                <div class="panel-body">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:75px">Item No.</th>
+                                                <th>Tasks</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in dataList">
+                                                <td align="center">{{$index+1}}</td>
+                                                <td>
+                                                    <form>
+                                                        <input type="text" class="form-control form-control-sm" ng-model="x.name_task_list" required />
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <a ng-class="{'btn btn-default button14' : $index != 0 , 'btn btn-default disabled' : $index == 0}" ng-click="removeRow($index)"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="form-group">
+                                        <a class="btn btn-default pull-left button14" ng-click="appendRow()"><i class="fa fa-plus"> Append Row</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default button14" ng-click="newList()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: New List Tasks -->
+
+    <!-- START Modal: Create By Profile -->
+    <div class="modal fade modal-create" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title"><img src="~/Content/assets/images/012.gif" height="30" /> Profile Details</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- START Avatar with Name -->
+                    <div class="media m-l-1">
+                        <div class="media-left">
+                            <div class="center-block">
+                                <div class="avatar avatar-lg center-block">
+                                    <img class="img-circle center-block m-t-1 m-b-2" src="{{createBy.path_image}}" alt="Avatar">
+                                    <i class="avatar-status avatar-status-bottom bg-danger b-brand-gray-darker"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4>
+                                <span>{{createBy.name_th}}</span>
+                            </h4>
+                            <p class="m-t-0"><span>{{linq_position(createBy.postion)}}</span></p>
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group" role="group">
+                                    <!-- Standard button -->
+                                    <button type="button" class="btn btn-success btn-sm button14 "><i class="fa fa-fw fa-envelope-o m-r-1"></i>Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Avatar with Name -->
+                    <div class="hr-text hr-text-left">
+                        <h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+                    </div>
+
+                    <span>{{createBy.description}}</span>
+
+                    <!-- Tabs Buttons -->
+                    <ul class="nav nav-tabs m-t-3 tab-color-rangoon">
+                        <li role="presentation" class="active">
+                            <a data-toggle="tab" href="#tab-detail-contact-2" role="tab">Detail Contact</a>
+                        </li>
+                        <li role="presentation">
+                            <a data-toggle="tab" href="#tab-activity" role="tab">Project List</a>
+                        </li>
+                    </ul>
+                    <!-- START Tabs Content -->
+                    <div class="tab-content">
+
+                        <!-- START Tab: Detail Contact -->
+                        <div class="tab-pane fade in active p-r-1 tab-color-rangoon" id="tab-detail-contact-2" role="tabpanel">
+                            <br /> <br />
+                            <dl class="dl-horizontal text-left">
+                                <dt class="text-left">Phone </dt>
+                                <dd class="text-left text-white"><span>{{createBy.phone}}</span></dd>
+                                <dt class="text-left">Line </dt>
+                                <dd class="text-left text-white"><span>{{createBy.line_id}}</span></dd>
+                                <dt class="text-left">Email </dt>
+                                <dd class="text-left text-white"><a href="#"><span>{{createBy.email}}</span></a></dd>
+
+                            </dl>
+
+
+                        </div>
+                        <!-- END Tab: Detail Contact -->
+                        <!-- START Tab: Activity -->
+                        <div class="tab-pane fade p-r-1" id="tab-activity" role="tabpanel">
+                            <div class="timeline timeline-datetime">
+                                <div class="hr-text hr-text-center m-t-0 m-b-0">
+                                    <h6 class="text-white"><strong>Project</strong></h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-primary"></i> Today</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">2 Project</h4>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-endaveour"></i> This Month</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">8 Project</h4>
+                                    </div>
+                                </div>
+                                <div class="hr-text hr-text-center m-t-0 m-b-0">
+                                    <h6 class="text-white"><strong>Tasks</strong></h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-success"></i> Today</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">6 Task</h4>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-caper"></i> This Month</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">28 Task</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline timeline-datetime">
+                                <div class="timeline-item p-r-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: Create By Profile -->
+
+</div>
+
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", ['cp.ngConfirm']);
+        iTeam.controller("taskDetail", function ($scope, $http, $filter, $location, $ngConfirm) {
+
+            // Data Type
+            $scope.dateDefault = {};
+            $scope.data = {};
+            $scope.dataTasks = {};
+            $scope.dataFile = {};
+            $scope.dataComment = {};
+            $scope.Comment = {};
+            $scope.createBy = {};
+
+            $scope.dataReadComment = [];
+            $scope.dataReadTaskList = [];
+
+            $scope.progressTasks = 0;
+
+            // Fix Data
+            $scope.dataList = [
+                {
+                    'name_task_list': "",
+                    'task_id': $queryString.task_id
+                }
+            ];
+
+            $scope.position_arr = [
+                { id: '1', name: 'Project Management' },
+                { id: '2', name: 'Human Resource' },
+                { id: '3', name: 'Web Application Programmer' },
+                { id: '4', name: 'Software Programmer' },
+                { id: '5', name: 'Accounting' },
+                { id: '6', name: 'Staff' },
+            ]
+
+            $scope.linq_position = function (id) {
+                return $linq($scope.position_arr).where(x => x.id == id).select(s => s.name).firstOrDefault();
+            }
+
+            $scope.tasks_prioity = [
+                { id: '1', name: 'ทั่วไป (Low)' },
+                { id: '2', name: 'ปานกลาง (Medium)' },
+                { id: '3', name: 'สูง (High)' },
+                { id: '4', name: 'สำคัญที่สุด (Critical)' }
+            ]
+
+            $scope.tasks_status = [
+                { id: '1', name: 'Active / กำลังดำเนินงาน' },
+                { id: '2', name: 'Waiting / รอการตรวจสอบ' },
+                { id: '3', name: 'Success / เสร็จสิ้น' },
+            ]
+
+            // Function : Show Modal Edit Tasks
+            $scope.showEditTasks = function () {
+                $('.edit-tasks').modal('show');
+                $scope.currentTasks = $scope.dataTasks;
+                $scope.readDate($scope.currentTasks);
+            }
+
+            // Function : linq tasks_prioity
+            $scope.dataPrioity = function (id) {
+                return $linq($scope.tasks_prioity).where(x => x.id == id).select(x => x.name).firstOrDefault() || '';
+            }
+
+            // Function : linq tasks_status
+            $scope.dataStatus = function (id) {
+                return $linq($scope.tasks_status).where(x => x.id == id).select(x => x.name).firstOrDefault() || '';
+            }
+
+            // Function : Check Status
+            $scope.statusClass = function (prefix, status) {
+                return status == '1' ? prefix + 'fa fa-fw fa fa-circle text-secondary' : status == '2' ? prefix + 'fa fa-fw fa fa-circle text-primary' : status == '3' ? prefix + 'fa fa-fw fa fa-circle text-warning' : prefix + 'fa fa-fw fa fa-circle text-danger';
+            }
+
+            // Function : Append Row New Tasks List
+            $scope.appendRow = function () {
+                $scope.dataList.push({
+                    name_task_list: "",
+                    task_id: $queryString.task_id
+                });
+            };
+
+            // Function : Remove Row New Tasks List
+            $scope.removeRow = function (x) {
+                $scope.dataList.splice(x, 1)
+            }
+
+            // Function : Show Create By
+            $scope.showCreate = function (v) {
+                $$get(base + "Member/CreateBy?user_id=" + v.user_id, d => {
+                    $scope.createBy = d;
+                    $scope.$apply();
+                })
+            }
+
+            // Function : Read Default Project Date
+            $scope.readDate = function (x) {
+                $('.edit-tasks').modal('show');
+                $$get(base + "Project/ReadDate?project_id=" + x.project_id, d => {
+                    $scope.dateDefault = d;
+                    $scope.$apply();
+                })
+            }
+
+            // Function : Read Tasks in Database
+            $scope.readTask = function () {
+                $$get(base + "Project/ReadTasksDetail?task_id=" + $queryString.task_id, d => {
+                    $scope.dataTasks = d.data;
+                    $scope.$apply();
+                })
+            }
+            $scope.readTask();
+
+            // Function : Read List Tasks in Database
+            $scope.readDataList = function () {
+                $$get(base + "Project/ReadTaskList?task_id=" + $queryString.task_id, d => {
+                    var a = $linq(d.data).where(x => x.active == 'Y').count()
+                    var b = $linq(d.data).count()
+
+                    $scope.progressTasks = a == 0 ? 0 : (a / b) * 100
+                    $scope.dataReadTaskList = JSON.parse(JSON.stringify(d.data))
+                    $scope.$apply();
+                })
+            }
+            $scope.readDataList();
+
+            // Function : Read File in Database
+            $scope.readFile = function () {
+                $$get(base + "Project/ReadFile?task_id=" + $queryString.task_id, d => {
+                    $scope.dataFile = d.data;
+                    $scope.$apply();
+                });
+            }
+            $scope.readFile();
+
+            // Function : Read Comments in Database
+            $scope.readComment = function () {
+                $$get(base + "Project/ReadComment?task_id=" + $queryString.task_id, d => {
+                    $scope.dataReadComment = d.data;
+                    $scope.$apply();
+                });
+            }
+            $scope.readComment();
+
+            // Function : New Tasks List
+            $scope.newList = function () {
+                var formData = {
+                    'listArray': $scope.dataList
+                }
+                $$post(JSON.stringify(formData), base + "Project/NewListTask", d => {
+                    if (d.success) {
+                        $scope.readDataList();
+                        $('.new-list').modal('hide');
+                        $scope.dataList = [
+                            {
+                                'name_task_list': "",
+                                'task_id': $queryString.task_id
+                            }
+                        ];
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Function : Edit Tasks
+            $scope.editTasks = function () {
+                $$post(JSON.stringify($scope.currentTasks), base + "Project/EditTasks", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            title: 'แก้ไขข้อมูลเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|8000',
+                            buttons: {
+                                cancel: function () {
+                                    $('.edit-tasks').modal('hide');
+                                    $scope.readTask();
+                                }
+                            }
+                        });
+                        $('.edit-tasks').modal('hide');
+                        $scope.readTask();
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Function : Update List
+            $scope.updateList = function () {
+                var formData = {
+                    'listArray': $linq($scope.dataReadTaskList).where(x => x.active == 'Y').toArray()
+                }
+                $$post(JSON.stringify(formData), base + "Project/UpdateListTask", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            title: 'บันทึกเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|8000',
+                            buttons: {
+                                cancel: function () {
+                                    $scope.readDataList();
+                                }
+                            }
+                        });
+                        $scope.readDataList();
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Function : Upload File
+            $scope.sendData = function (x) {
+                var file_input = document.getElementById('File')
+                var file = file_input.files[0]
+                var formData = new FormData();
+                formData.append("file", file);
+                formData.append("task_id", x);
+                $$post(formData, base + "Project/UploadFile", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            icon: 'fa fa-upload',
+                            title: 'Success',
+                            content: 'Upload เสร็จสิ้น',
+                            buttons: {
+                                OK: function () {
+                                    $scope.readFile();
+                                }
+                            }
+                        });
+                        $scope.readFile();
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-alert',
+                            title: 'Error',
+                            content: d.error,
+                            buttons: {
+                                Close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Function : Change Status and Delete List
+            $scope.btn = {
+                deleteList: function (x) {
+                    $$post(JSON.stringify(x), base + "Project/DeleteTaskList", d => {
+                        if (d.success) {
+                            $ngConfirm({
+                                icon: 'fa fa-bell',
+                                title: 'Alert',
+                                content: 'Delete เสร็จสิ้น',
+                                buttons: {
+                                    OK: function () {
+                                        $scope.readDataList();
+                                    }
+                                }
+                            });
+                            $scope.readDataList();
+                        }
+                        else {
+                            $ngConfirm({
+                                icon: 'fa fa-warning',
+                                title: 'คำเตือน',
+                                content: d.error,
+                                type: 'red',
+                                typeAnimated: true,
+                                buttons: {
+                                    close: function () {
+
+                                    }
+                                }
+                            });
+                        }
+                    }, err => { }, () => { })
+                },
+                changeStatus: function (x) {
+                    $$post(JSON.stringify(x), base + "Project/ChangeStatus", d => {
+                        if (d.success) {
+                            $ngConfirm({
+                                icon: 'fa fa-bell',
+                                title: 'Alert',
+                                content: 'Update เสร็จสิ้น',
+                                buttons: {
+                                    OK: function () {
+                                        $scope.readDataList();
+                                    }
+                                }
+                            });
+                            $scope.readDataList();
+                        }
+                        else {
+                            $ngConfirm({
+                                icon: 'fa fa-warning',
+                                title: 'คำเตือน',
+                                content: d.error,
+                                type: 'red',
+                                typeAnimated: true,
+                                buttons: {
+                                    close: function () {
+
+                                    }
+                                }
+                            });
+                        }
+                    }, err => { }, () => { })
+                },
+            }
+
+            // Function : Save Status
+            $scope.status = function () {
+                $$post(JSON.stringify($scope.dataTasks), base + "Project/UpdateStatus", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            title: 'บันทึกเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|8000',
+                            buttons: {
+                                cancel: function () {
+                                    $scope.readTask();
+                                }
+                            }
+                        });
+                        $scope.readTask();
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Function : New Comments
+            $scope.newComment = function () {
+                $scope.dataComment.task_id = $queryString.task_id;
+                var form = {
+                    'header': $scope.dataComment,
+                }
+                $$post(JSON.stringify(form), base + "Project/NewComment", d => {
+                    if (d.success) {
+                        $scope.dataComment = {};
+                        $scope.readComment();
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            // Fucntion : Check Delete
+            $scope.checkDeleteComment = function (c) {
+                $scope.selectComment = $linq(c).select(s => s.comment).firstOrDefault()
+                $ngConfirm({
+                    icon: 'fa fa-warning',
+                    title: 'คุณต้องการลบใช่หรือไม่?',
+                    content: $scope.selectComment,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Delete',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                $scope.deleteComment(c);
+                            }
+                        },
+                        close: function () {
+                        }
+                    }
+                });
+            }
+
+            // Function : Delete Comment
+            $scope.deleteComment = function (c) {
+                $$post(JSON.stringify(c), base + "Project/DeleteComment", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            icon: 'fa fa-spinner fa-spin',
+                            title: 'ลบข้อความเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 4 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|6000',
+                            buttons: {
+                                cancel: function () {
+                                    $scope.readComment();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $ngConfirm({
+                            icon: 'fa fa-warning',
+                            title: 'คำเตือน',
+                            content: d.error,
+                            type: 'red',
+                            typeAnimated: true,
+                            buttons: {
+                                close: function () {
+
+                                }
+                            }
+                        });
+                    }
+                    $scope.readComment();
+                    $scope.$apply;
+                }, err => { }, () => { })
+            }
+
+        });
+
+        iTeam.directive('date', function (dateFilter) {
+            return {
+                require: 'ngModel',
+                link: function (scope, elm, attrs, ctrl) {
+
+                    var dateFormat = attrs['date'] || 'yyyy-MM-dd';
+
+                    ctrl.$formatters.unshift(function (modelValue) {
+                        return dateFilter(modelValue, dateFormat);
+                    });
+                }
+            };
+        });
+
+    </script>
+}

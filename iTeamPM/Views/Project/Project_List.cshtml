@@ -1,0 +1,1218 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+    ViewBag.Title = "Project - iTeam Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section headerTitle{
+    <h3><i class="fa fa-tasks"></i> Project System</h3>
+}
+
+@section detailActive{
+    active
+}
+<style>
+    .b-g-hover:hover {
+        border: 5px solid #87dc1d !important;
+        margin-top: -6px;
+        margin-left: -6px;
+    }
+
+    .b-p-hover:hover {
+        border: 4px solid #0789e0 !important;
+        margin-top: -6px;
+        margin-left: -6px;
+    }
+</style>
+<div class="container" ng-controller="projectList">
+
+    <!-- START EDIT CONTENT -->
+    <div class="row">
+        <!-- START Left Column -->
+        <div class="col-lg-3">
+            <!-- START Search -->
+            <div class="hr-text hr-text-left m-t-0 m-b-1">
+                <h6 class="text-white"><strong>Search</strong></h6>
+            </div>
+            <div class="input-group">
+                <input type="text" ng-model="searchText" class="form-control" placeholder="Search..." ng-change="page.setCurrentPage(1);readProject()" ng-model-options="{debounce:1000}">
+                <span class="input-group-addon">
+                    <i class="fa" ng-class="{'fa-search':!cus_loading, 'fa-spinner':cus_loading,'fa-spin':cus_loading}"></i>
+                </span>
+            </div>
+            <!-- END Search -->
+            <!-- START Projects -->
+            <div class="hr-text hr-text-left m-t-2 m-b-1">
+                <h6 class="text-white"><strong>Projects</strong></h6>
+            </div>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="" ng-repeat="x in dataProject">
+                    <a href="{{createLink(x.project_id)}}"><i class="fa fa-fw fa-star-o text-gray-lighter m-r-1"></i>{{x.project_name}}</a>
+                </li>
+                <li role="presentation">
+                </li>
+            </ul>
+            <!-- END Projects -->
+        </div>
+        <!-- END Left Column -->
+
+        <div class="col-lg-9">
+            <!-- START Header with Option -->
+            <div class="row m-b-1">
+                <div class="col-md-4 col-sm-6 col-xs-6">
+                    <!-- START Header -->
+                    &nbsp;
+                    <!-- END Header -->
+                </div>
+                <div class="col-md-4 col-xs-6 col-md-offset-4 col-sm-4 col-sm-offset-2">
+                    <!-- START Toolbar -->
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-primary button14" data-toggle="modal" data-target=".new-project"><span class="hidden-md hidden-sm hidden-xs"> New Project</span> <i class="fa fa-fw fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <!-- END Toolbar -->
+                </div>
+            </div>
+            <!-- END Header with Option -->
+
+            <div class="row">
+
+                <!-- START Default Page -->
+                <div class="col-lg-12 col-md-12" ng-show="!(dataProject.length > 0)">
+                    <h4 class="text-center"><i class="fa fa-spinner fa-spin"></i> ไม่พบข้อมูลในฐานข้อมูล</h4>
+                </div>
+                <!-- END Default Page -->
+                <!-- START Grid -->
+                <div class="col-lg-6 col-md-6" ng-repeat="x in dataProject">
+                    <!-- START Project Grid -->
+                    <div class="panel panel-default" style="margin-top:3px;">
+                        <div ng-class="{'b-a-2 no-bg b-success b-g-hover':x.status_project == 'Y','b-a-2 no-bg b-primary b-p-hover':x.status_project != 'Y'}">
+                            <div class="panel-body">
+                                <!-- START Media Task Name -->
+                                <div class="media m-t-0">
+                                    <div class="media-left media-middle">
+                                    </div>
+                                    <div class="media-body">
+                                        <!-- START ID & Title Task -->
+                                        <h4 class="m-b-1">
+                                            <i class="fa fa-folder"></i><a href="{{createLink(x.project_id)}}" style="color:white">  {{x.project_name}} </a>
+                                            <a class="btn btn-default btn-sm pull-right" style="border-color:#6bfb2e" ng-if="x.tasks_complete == x.tasks_count && x.status_project !='Y' && x.tasks_complete != 0 " ng-click="sendStatus(x)"><i class="fa fa-save" style="color:#ffffff"></i> Finish</a>
+                                            <span class="pull-right text-success" ng-show="x.status_project == 'Y'">Success (เสร็จสิ้น)</span>
+                                            <span class="pull-right text-primary" ng-show="x.status_project == 'N'">Active (กำลังดำเนินงาน)</span>
+                                            <a href="" data-toggle="modal" data-target=".info-project" ng-click="checkData(x)"><i class="fa fa-info-circle text-white"></i></a>
+                                        </h4>
+                                        <!-- END ID & Title Task -->
+                                    </div>
+                                </div>
+                                <!-- END Media Task Name -->
+                                Create by: <a class="text-white" data-toggle="modal" data-target=".modal-create" ng-click="showCreate(x)"><span>{{x.username}}</span></a>&nbsp;
+
+                            </div>
+                            <ul class="list-group no-bg">
+                                <li class="list-group-item no-bg">
+                                    <!-- START Image - Progress Project -->
+                                    <img src="~/Content/assets/images/79.gif" height="20" />
+                                    <!-- END Image - Progress Project -->
+                                </li>
+                                <li class="list-group-item no-bg">
+                                    <!-- START Widget - Usage -->
+                                    <div class="progress" style="height:10px;">
+                                        <div background-color:#6bfb2e; class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" aria-valuenow="{{(x.tasks_complete/x.tasks_count)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(x.tasks_complete/x.tasks_count)*100}}%"></div>
+                                    </div>
+                                    <span class="m-t-0">
+                                        Tasks Completed: <span class="text-white">{{x.tasks_complete}}/{{x.tasks_count}}</span>
+                                    </span>
+
+                                    <!-- END Widget - Usage -->
+                                </li>
+                                <li class="list-group-item no-bg">
+                                    <a><img class="img-circle avatar avatar-sm" ng-repeat="v in x.memberProject" src="{{v.path_image}}" data-toggle="tooltip" data-placement="top" title="{{v.name_th}}"></a>
+                                </li>
+                                <li class="list-group-item no-bg">
+                                    <span style="color:#6bfb2e">Start Project: </span><span style="color:#bbbbbb">{{x.start_project | date:"dd/MM/yyyy"}}</span> |
+                                    <span style="color:#fe2525">End Project: </span><span style="color:#bbbbbb">{{x.end_project | date:"dd/MM/yyyy"}}</span><br />
+                                    <span style="color:#13e9ff">Last Update: </span><span style="color:#bbbbbb">{{x.add_dt | date:"dd/MM/yyyy 'at' h:mma"}}</span>
+                                    <div class="btn-group pull-right" ng-show="@auth.user_id == {{x.add_user}}">
+                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-hide="x.status_project == 'Y'">
+                                            <i class="fa fa-fw fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#" data-toggle="modal" data-target=".edit-project" ng-click="checkData(x)"><i class="fa fa-fw fas fa-edit text-gray-lighter m-r-1"></i> Edit Project</a></li>
+                                            <li><a href="#" ng-click="DeleteDataProject(x)"><i class="fa fa-fw fa-trash text-gray-lighter m-r-1"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END Project Grid -->
+                </div>
+                <br />
+                <!-- END Grid -->
+
+            </div>
+
+            <!-- START Pagination -->
+            <div class="row" ng-show="(dataProject.length > 0)">
+                <div class="col-sm-12 text-center" style="float: none; margin: 0 auto;">
+                    <ul class="pagination">
+                        <li ng-repeat="x in pageArray" ng-class="{'active':x.active}" ng-click="page.setCurrentPage(x.page_no);readProject()">
+                            <a onclick="return false" href="#" ng-class="{'active':x.active}">{{x.page_no|number:0}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Pagination -->
+
+        </div>
+    </div>
+    <!-- END EDIT CONTENT -->
+
+    <!-- START Modal: Info Project -->
+    <div class="modal fade info-project" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <img src="~/Content/assets/images/Humen.gif" height="30" />
+                        <b>Info</b> <small></small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span class="text-danger">*</span> Project Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="" ng-model="currentData.project_name" disabled style="cursor:context-menu;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                <textarea style="overflow:auto;resize:none;cursor:context-menu;" class="form-control" rows="4" ng-model="currentData.project_des" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Start Project</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" placeholder="Select..." ng-model="currentData.start_project" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">End Project</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" placeholder="Select..." ng-model="currentData.end_project" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-text hr-text-left">
+                            <h6 class="text-white bg-rangoon-i"><strong>Member</strong></h6>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-1">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-10" ng-show="addMemberEdit">
+                                <div class="form-group">
+                                    <label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+                                    <div class="input-group select2-bootstrap-append">
+                                        <select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+                                            <option value="" selected>โปรดเลือกผู้ใช้งานเพิ่มเติม</option>
+                                            <option ng-repeat="x in dataMember" value="{{x.user_id}}">{{x.name_th}}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <a href="#" class="btn btn-default" data-select2-open="single-append-text" ng-click="editUser()">
+                                                <span class="fa fa-plus"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" ng-repeat="v in currentData.memberProject">
+                                        <div class="media-left">
+                                            <div class="media-left">
+                                                <div class="avatar avatar-sm">
+                                                    <img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+                                                    <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body media-middle media-right">
+                                                <h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+                                                <p class="small text-gray-lighter m-b-0">
+                                                    <span>{{v.username}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="media-right">
+                                            <label>
+                                                <input type="checkbox" ng-show="deleteMemberEdit && {{v.user_id != currentData.add_user}}" ng-checked="exists(v, selected)" ng-click="toggle(v, selected)" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="list-group-item" ng-repeat="v in selectEditUser">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="avatar avatar-sm">
+                                                <img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+                                                <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                            </div>
+                                        </div>
+                                        <div class="media-body media-middle">
+                                            <h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+                                            <p class="small text-gray-lighter m-b-0"><span>{{v.username}}</span></p>
+                                        </div>
+                                        <div class="media-right">
+                                            <span ng-click="closeEditUser(v.user_id)"><i class="fa fa-times"></i></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: Info Project -->
+
+    <!-- START Modal: New Project -->
+    <div class="modal fade new-project" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-plus-square text-white"></i> Add Project <small> หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span class="text-danger">*</span> Project Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="ชื่อของโปรเจค" ng-model="data.project_name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-sm-6 col-lg-12 col-xs-12 hidden-xs">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-Description" data-toggle="tab" aria-expanded="true">Description</a></li>
+                                        <li class="" id="hideTabPeople"><a href="#tab-People" data-toggle="tab" aria-expanded="false">People</a></li>
+                                        <li class="" id="hideTabGroup"><a href="#tab-Group" data-toggle="tab" aria-expanded="false">Group</a></li>
+                                        <li class=""><a href="#tab-Dates" data-toggle="tab" aria-expanded="false">Dates</a></li>
+                                        <li class=""><a aria-expanded="false" ng-click="syncLayout()"><i class="fa fa-fw fa-sync"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6 col-lg-12 col-xs-12 visible-xs">
+                                    <ul class="nav nav-tabs">
+                                        <li role="presentation" class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" ng-model="selectTab">
+                                                <span class="text-danger">* &nbsp;</span>{{selectTab}}<span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="active"><a href="#tab-Description" data-toggle="tab" aria-expanded="true" ng-click="selectTab = Description " ng-model="Description">Description</a></li>
+                                                <li class="" id="hideTabPeople"><a href="#tab-People" data-toggle="tab" aria-expanded="false" ng-model="People" ng-click="selectTab = People ">People</a></li>
+                                                <li class="" id="hideTabGroup"><a href="#tab-Group" data-toggle="tab" aria-expanded="false" ng-model="Group" ng-click="selectTab = Group ">Group</a></li>
+                                                <li class=""><a href="#tab-Dates" data-toggle="tab" aria-expanded="false" ng-model="Dates" ng-click="selectTab = Dates ">Dates</a></li>
+                                                <li class=""><a aria-expanded="false" ng-click="syncLayout()"><i class="fa fa-fw fa-sync"></i></a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-1 col-sm-1 col-xs-1"></div>
+                                        <div class="col-lg-11 col-sm-11 col-xs-11">
+                                            <div class="tab-content">
+
+                                                <!-- START TAB DESCRIPTION -->
+                                                <div class="tab-pane fade in active p-r-1" id="tab-Description" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Description</label>
+                                                            <div class="col-sm-9">
+                                                                <textarea style="overflow:auto;resize:none" class="form-control" rows="4" placeholder="กรอกรายละเอียดของโปรเจค ?" ng-model="data.project_des"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB DESCRIPTION -->
+
+                                                <!-- START TAB PEOPLE -->
+                                                <div class="tab-pane fade p-r-1" id="tab-People" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="add-people-project" class="control-label"> คุณต้องการเพิ่มทีมงานลงโปรเจคหรือไม่ ?</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <div class="form-group">
+                                                                <label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+                                                                <div class="input-group select2-bootstrap-append">
+                                                                    <select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+                                                                        <option value="" selected>โปรดเลือกผู้ใช้งานลงในโปรเจค</option>
+                                                                        <option ng-repeat="x in dataMember" value="{{x.user_id}}">{{x.name_th}}</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <a href="#" class="btn btn-default" data-select2-open="single-append-text" ng-click="addUser()">
+                                                                            <span class="fa fa-plus"></span>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="list-group">
+                                                                <a class="list-group-item" ng-repeat="x in selectUser">
+                                                                    <div class="media">
+                                                                        <div class="media-left">
+                                                                            <div class="avatar avatar-sm">
+                                                                                <img class="media-object img-circle" src="{{x.path_image}}" alt="Avatar">
+                                                                                <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="media-body media-middle">
+                                                                            <h5 class="m-t-0 m-b-0"><span>{{x.name_th}}</span></h5>
+                                                                            <p class="small text-gray-lighter m-b-0"><span>{{linq_position(x.postion)}}</span></p>
+                                                                        </div>
+                                                                        <div class="media-right">
+                                                                            <span ng-click="closeUser(x.user_id)"><i class="fa fa-times"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB PEOPLE -->
+
+                                                <!-- START TAB GROUP -->
+                                                <div class="tab-pane fade  p-r-1" id="tab-Group" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for="add-people-project" class="control-label"> คุณต้องการเพิ่มกลุ่มทีมงานลงโปรเจคหรือไม่ ?</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <div class="form-group">
+                                                                <label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+                                                                <div class="input-group select2-bootstrap-append">
+                                                                    <select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+                                                                        <option value="" selected>โปรดเลือกผู้ใช้งานลงในโปรเจค</option>
+                                                                        <option ng-repeat="x in dataGroup" value="{{x.group_id}}">{{x.group_name}}</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <a href="#" class="btn btn-default" data-select2-open="single-append-text" ng-click="addGroup()">
+                                                                            <span class="fa fa-plus"></span>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="list-group">
+                                                                <a class="list-group-item" ng-repeat="z in selectUser">
+                                                                    <div class="media">
+                                                                        <div class="media-left">
+                                                                            <div class="avatar avatar-sm">
+                                                                                <img class="media-object img-circle" src="{{z.path_image}}" alt="Avatar">
+                                                                                <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="media-body media-middle">
+                                                                            <h5 class="m-t-0 m-b-0"><span>{{z.name_th}}</span></h5>
+                                                                            <p class="small text-gray-lighter m-b-0"><span>{{linq_position(z.postion)}}</span></p>
+                                                                        </div>
+                                                                        <div class="media-right">
+                                                                            <span ng-click="closeGroup(z.user_id)"><i class="fa fa-times"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB GROUP -->
+
+                                                <!-- START TAB DATE -->
+                                                <div class="tab-pane fade p-r-1" id="tab-Dates" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-9">
+                                                            <div class="form-group hidden-xs hidden-sm">
+                                                                <label class="text-right">&nbsp; &nbsp; โปรดกำหนดระยะเวลาเริ่มต้น - สิ้นสุดของโปรเจค</label>
+                                                            </div>
+                                                            <div class="form-group visible-xs visible-sm">
+                                                                <label class="text-right">&nbsp; &nbsp; โปรดกำหนดระยะเวลาโปรเจค</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p class="text-muted text-uppercase"><small><strong>Start Project</strong></small></p>
+                                                            <div id="daterangepicker-container">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="date" class="form-control" placeholder="Select..." ng-model="data.start_project">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p class="text-muted text-uppercase"><small><strong>End Project</strong></small></p>
+                                                            <div id="daterangepicker-container">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="date" class="form-control" placeholder="Select..." ng-model="data.end_project">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB DATE -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary button14" ng-click="newProject()">Create Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: New Project -->
+
+    <!-- START Modal: Edit Project -->
+    <div class="modal fade edit-project" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-edit text-white"></i> Edit Project <small> หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span class="text-danger">*</span> Project Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="" ng-model="currentData.project_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-9">
+                                <textarea style="overflow:auto;resize:none" class="form-control" rows="4" ng-model="currentData.project_des"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Start Project</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" placeholder="Select..." ng-model="currentData.start_project" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">End Project</label>
+                            <div class="col-sm-6">
+                                <div id="daterangepicker-container">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" placeholder="Select..." ng-model="currentData.end_project">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-text hr-text-left">
+                            <h6 class="text-white bg-rangoon-i"><strong>Member</strong></h6>
+                        </div>
+                        <div class="">
+                            <a class="btn btn-default" ng-init="addMemberEdit=false" ng-click="addMemberEdit=!addMemberEdit;deleteMemberEdit=false"><i class="fa fa-user-plus"></i></a>
+                            <a class="btn btn-default" ng-init="deleteMemberEdit=false" ng-click="deleteMemberEdit=!deleteMemberEdit;addMemberEdit=false"><i class="fa fa-trash"></i></a>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1">
+                                &nbsp;
+                            </div>
+                            <div class="col-sm-10" ng-show="addMemberEdit">
+                                <div class="form-group">
+                                    <label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+                                    <div class="input-group select2-bootstrap-append">
+                                        <select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+                                            <option value="" selected>โปรดเลือกผู้ใช้งานเพิ่มเติม</option>
+                                            <option ng-repeat="x in dataMember" value="{{x.user_id}}">{{x.name_th}}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <a href="#" class="btn btn-default" data-select2-open="single-append-text" ng-click="editUser()">
+                                                <span class="fa fa-plus"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="list-group">
+                                    <div class="list-group-item" ng-repeat="v in currentData.memberProject">
+                                        <div class="media-left">
+                                            <div class="media-left">
+                                                <div class="avatar avatar-sm">
+                                                    <img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+                                                    <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body media-middle media-right">
+                                                <h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+                                                <p class="small text-gray-lighter m-b-0">
+                                                    <span>{{v.username}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="media-right">
+                                            <label>
+                                                <input type="checkbox" ng-show="deleteMemberEdit && {{v.user_id != currentData.add_user}}" ng-checked="exists(v, selected)" ng-click="toggle(v, selected)" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="list-group-item" ng-repeat="v in selectEditUser">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="avatar avatar-sm">
+                                                <img class="media-object img-circle" src="{{v.path_image}}" alt="Avatar">
+                                                <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                            </div>
+                                        </div>
+                                        <div class="media-body media-middle">
+                                            <h5 class="m-t-0 m-b-0"><span>{{v.name_th}}</span></h5>
+                                            <p class="small text-gray-lighter m-b-0"><span>{{v.username}}</span></p>
+                                        </div>
+                                        <div class="media-right">
+                                            <span ng-click="closeEditUser(v.user_id)"><i class="fa fa-times"></i></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary button14" ng-click="editProject();deleteMemberGroup(selected);">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: Edit Project -->
+
+    <!-- START Modal: Create By Profile -->
+    <div class="modal fade modal-create" style="margin-top:5%" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&#xD7;</span>
+                    </button>
+                    <h4 class="modal-title"><img src="~/Content/assets/images/pof.gif" height="30" /> Profile Details</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- START Avatar with Name -->
+                    <div class="media m-l-1">
+                        <div class="media-left">
+                            <div class="center-block">
+                                <div class="avatar avatar-lg center-block">
+                                    <img class="img-circle center-block m-t-1 m-b-2" src="{{createBy.path_image}}" alt="Avatar">
+                                    <i class="avatar-status avatar-status-bottom bg-danger b-brand-gray-darker"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4>
+                                <span>{{createBy.name_th}}</span>
+                            </h4>
+                            <p class="m-t-0"><span>{{linq_position(createBy.postion)}}</span></p>
+                            <div class="btn-toolbar" role="toolbar">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Avatar with Name -->
+                    <div class="hr-text hr-text-left">
+                        <h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+                    </div>
+
+                    <span>{{createBy.description}}</span>
+
+                    <!-- Tabs Buttons -->
+                    <ul class="nav nav-tabs m-t-3 tab-color-rangoon">
+                        <li role="presentation" class="active">
+                            <a data-toggle="tab" href="#tab-detail-contact-2" role="tab">Detail Contact</a>
+                        </li>
+                        <li role="presentation">
+                            <a data-toggle="tab" href="#tab-activity" role="tab">Project List</a>
+                        </li>
+                    </ul>
+                    <!-- START Tabs Content -->
+
+                    <div class="tab-content">
+                        <!-- START Tab: Detail Contact -->
+                        <div class="tab-pane fade in active p-r-1 tab-color-rangoon" id="tab-detail-contact-2" role="tabpanel">
+                            <br /> <br />
+                            <dl class="dl-horizontal text-left">
+                                <dt class="text-left">Phone </dt>
+                                <dd class="text-left text-white"><span>{{createBy.phone}}</span></dd>
+                                <dt class="text-left">Line </dt>
+                                <dd class="text-left text-white"><span>{{createBy.line_id}}</span></dd>
+                                <dt class="text-left">Email </dt>
+                                <dd class="text-left text-white"><a href="#"><span>{{createBy.email}}</span></a></dd>
+
+                            </dl>
+
+
+                        </div>
+                        <!-- END Tab: Detail Contact -->
+                        <!-- START Tab: Activity -->
+                        <div class="tab-pane fade p-r-1" id="tab-activity" role="tabpanel">
+                            <div class="timeline timeline-datetime">
+                                <div class="hr-text hr-text-center m-t-0 m-b-0">
+                                    <h6 class="text-white"><strong>Project</strong></h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-primary"></i> Today</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">2 Project</h4>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-endaveour"></i> This Month</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">8 Project</h4>
+                                    </div>
+                                </div>
+                                <div class="hr-text hr-text-center m-t-0 m-b-0">
+                                    <h6 class="text-white"><strong>Tasks</strong></h6>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-success"></i> Today</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">6 Task</h4>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 text-center">
+                                        <p class="text-center m-b-0"><i class="fa fa-circle text-caper"></i> This Month</p>
+                                        <h4 class="m-t-0 f-w-300 m-b-0">28 Task</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline timeline-datetime">
+                                <div class="timeline-item p-r-1">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Tab: Activity -->
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default button14" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal: Create By Profile -->
+
+</div>
+
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", ['cp.ngConfirm']);
+        iTeam.controller("projectList", function ($scope, $http, $filter, $location, $ngConfirm) {
+
+            $scope.dataProject = [];
+            $scope.dataMember = [];
+            $scope.dataGroup = [];
+            $scope.selectTab = 'Description';
+            $scope.Description = 'Description';
+            $scope.People = 'People';
+            $scope.Group = 'Group';
+            $scope.Dates = 'Dates';
+
+            $scope.createBy = {};
+            $scope.data = {};
+            $scope.deleteDataP = {};
+            $scope.statusProject = {};
+
+            $scope.selectUser = [];
+            $scope.selectEditUser = [];
+            $scope.groupUser = [];
+
+            $scope.selected = [];
+
+            $scope.page = new Pagination();
+            $scope.page.setItemsPerPage(6);
+            $scope.pageArray = $scope.page.createPagesArray();
+
+            $scope.searchText = "";
+
+            $scope.position_arr = [
+				{ id: '1', name: 'Project Management' },
+				{ id: '2', name: 'Human Resource' },
+				{ id: '3', name: 'Web Application Programmer' },
+				{ id: '4', name: 'Software Programmer' },
+				{ id: '5', name: 'Accounting' },
+				{ id: '6', name: 'Staff' },
+            ]
+
+            $scope.linq_position = function (id) {
+            	return $linq($scope.position_arr).where(x => x.id == id).select(s => s.name).firstOrDefault();
+            }
+
+            $scope.createLink = function (id) {
+                return base + "Project/Project_Detail?project_id=" + id
+            }
+
+            // Function : Show Create By
+            $scope.showCreate = function (x) {
+                $$get(base + "Member/CreateBy?user_id=" + x.add_user, d => {
+                    $scope.createBy = d;
+                    $scope.$apply();
+                });
+            }
+
+            // Function : Read Member in Database
+            $scope.readMember = function () {
+                $$get(base + "Member/ReadMember", d => {
+                    $scope.dataMember = d.data;
+                    $scope.$apply();
+                });
+            }
+            $scope.readMember();
+
+            $scope.readGroup = function () {
+                $$get(base + "Project/ReadGroup", d => {
+                    $scope.dataGroup = d.data;
+                    $scope.$apply();
+                });
+            }
+            $scope.readGroup();
+
+            // Function : Read Project in Database
+            $scope.cus_loading = false;
+            $scope.readProject = function () {
+                $scope.cus_loading = true;
+                var p = $scope.page;
+                var formData = new FormData();
+                formData.append("take", p.getItemsPerPage());
+                formData.append("skip", p.skipItems());
+                formData.append('text', $scope.searchText || '');
+
+                $$get(base + "Project/ReadProject?skip=" + p.skipItems() + "&take=" + p.getItemsPerPage() + "&text=" + $scope.searchText, d => {
+                    $scope.total = d.total;
+                    p.setTotalItems(d.total);
+                    $scope.pageArray = p.createPagesArray();
+                    $scope.dataProject = d.data;
+                    $scope.cus_loading = false;
+                    $scope.selectEditUser = [];
+                    $scope.$apply();
+                });
+            }
+            $scope.readProject();
+
+
+            $scope.selected = [];
+            $scope.toggle = function (v, list) {
+                var idx = list.indexOf(v);
+                if (idx > -1) {
+                    list.splice(idx, 1);
+                }
+                else {
+                    list.push(v);
+                }
+            };
+
+            $scope.exists = function (item, list) {
+                return list.indexOf(item) > -1;
+            };
+
+            // Function : New Project in Database
+            $scope.newProject = function () {
+                var form = {
+                    'header': $scope.data,
+                    'detail': $scope.selectUser,
+                    'history': $scope.selectUser,
+                };
+                $$post(JSON.stringify(form), base + "Project/NewProject", d => {
+                    if (d.success) {
+                        $('.new-project').modal('hide');
+                        $ngConfirm({
+                            icon: 'fa fa-spinner fa-spin',
+                        	title: 'Success!',
+                        	content: 'สร้างโปรเจคเสร็จสิ้น',
+                        	type: 'green',
+                        	typeAnimated: true,
+                        	buttons: {
+                        		close: function () {
+
+                        		}
+                        	}
+                        });
+                        $scope.data = {};
+                        $scope.selectUser = [];
+                        $scope.readProject();
+                    }
+                    else {
+                    	$ngConfirm({
+                    		icon: 'fa fa-warning',
+                    		title: 'คำเตือน',
+                    		content: d.error,
+                    		type: 'red',
+                    		typeAnimated: true,
+                    		buttons: {
+                    			close: function () {
+
+                    			}
+                    		}
+                    	});
+                    }
+                    $scope.$apply();
+                }, err => { }, () => { })
+            }
+
+            // Function : Edit Project
+            $scope.editProject = function () {
+                var form = {
+                    'header': $scope.currentData,
+                    'detail': $scope.selectEditUser
+                };
+                $$post(JSON.stringify(form), base + "Project/EditProject", d => {
+                	if (d.success) {
+                		$ngConfirm({
+                			icon: 'fa fa-spinner fa-spin',
+                			title: 'Success',
+                			content: 'แก้ไขข้อมูลโปรเจคเสร็จสิ้น',
+                			type: 'green',
+                			typeAnimated: true,
+                			buttons: {
+                				close: function () {
+
+                				}
+                			}
+                		});
+                		$('.edit-project').modal('hide');
+                		$scope.readProject();
+                    }
+                    else {
+                    	$ngConfirm({
+                    		icon: 'fa fa-warning',
+                    		title: 'คำเตือน',
+                    		content: d.error,
+                    		type: 'red',
+                    		typeAnimated: true,
+                    		buttons: {
+                    			close: function () {
+
+                    			}
+                    		}
+                    	});
+                    }
+                    $scope.$apply();
+                }, err => { }, () => { })
+            }
+
+            // Function : Delete Member Group
+            $scope.deleteMemberGroup = function (x) {
+                var form = {
+                    'detail': $scope.selected
+                };
+                $$post(JSON.stringify(form), base + "Project/DeleteProjectGroup", d => {
+                    if (d.success) {
+                        $scope.ReadProject();
+                    }
+                    else {
+                    	$ngConfirm({
+                    		icon: 'fa fa-warning',
+                    		title: 'คำเตือน',
+                    		content: d.error,
+                    		type: 'red',
+                    		typeAnimated: true,
+                    		buttons: {
+                    			close: function () {
+
+                    			}
+                    		}
+                    	});
+                    }
+                    $scope.$apply();
+                }, err => { }, () => { })
+
+            }
+
+            // Function : Update Project => Check Data in modal
+            $scope.checkData = function (x) {
+                $scope.currentData = x;
+            }
+
+            // Function : Delete Project => Check Data in Database
+            $scope.DeleteDataProject = function (x) {
+                $scope.selectProject = $linq(x).select(s => s.project_name).firstOrDefault()
+                $ngConfirm({
+                    icon: 'fa fa-warning',
+                    title: 'คุณต้องการลบโปรเจคนี้ใช่หรือไม่?',
+                    content: $scope.selectProject,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Delete',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                $scope.deleteProject(x);
+                            }
+                        },
+                        close: function () {
+
+                        }
+                    }
+                });
+            }
+
+            // Function : Delete Project
+            $scope.deleteProject = function (x) {
+                $$post(JSON.stringify(x), base + "Project/DeleteProject", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            icon: 'fa fa-spinner fa-spin',
+                            title: 'ลบโปรเจคเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 4 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|6000',
+                            buttons: {
+                                cancel: function () {
+                                    $scope.readProject();
+                                }
+                            }
+                        });
+                        $scope.readProject();
+                    }
+                    else {
+                    	$ngConfirm({
+                    		icon: 'fa fa-warning',
+                    		title: 'คำเตือน',
+                    		content: d.error,
+                    		type: 'red',
+                    		typeAnimated: true,
+                    		buttons: {
+                    			close: function () {
+
+                    			}
+                    		}
+                    	});
+                    }
+                    $scope.readProject();
+                    $scope.$apply;
+                }, err => { }, () => { })
+            }
+
+            // Function : Add Member in Group (Row)
+            $scope.addUser = function () {
+                $('#hideTabGroup').hide();
+                let j = $linq($scope.dataMember).where(x => x.user_id == $scope.selectPersons).firstOrDefault();
+                if (j != null) {
+                    if ($linq($scope.selectUser).where(x => x.user_id == $scope.selectPersons).firstOrDefault() == null) {
+                        $scope.selectUser.push(JSON.parse(JSON.stringify(j)))
+                    }
+                }
+            }
+
+            // Function : Add Group in Group (Row)
+            $scope.addGroup = function () {
+                $('#hideTabPeople').hide();
+                let a = $linq($scope.dataGroup).where(x => x.group_id == $scope.selectPersons).firstOrDefault();
+                if (a != null) {
+                    let b = $linq(a).select(x => x.memberGroup).firstOrDefault();
+                    $scope.selectUser = JSON.parse(JSON.stringify(b))
+                }
+            }
+
+            // Function : Edit Member in Group (Row)
+            $scope.editUser = function () {
+                let j = $linq($scope.dataMember).where(x => x.user_id == $scope.selectPersons).firstOrDefault();
+                if (j != null) {
+                    if ($linq($scope.currentData.memberProject).where(x => x.user_id == $scope.selectPersons).firstOrDefault() == null) {
+                        $scope.selectEditUser.push(JSON.parse(JSON.stringify(j)))
+                    }
+                }
+            }
+
+            // Function : Remove Member in Group (Row)
+            $scope.closeUser = function (user_id) {
+                let selectUser = JSON.parse(JSON.stringify($scope.selectUser))
+                selectUser = $linq(selectUser).where(x => !(x.user_id == user_id)).toArray()
+                $scope.selectUser = selectUser;
+            }
+
+            // Function : Remove Edit Member in Group (Row)
+            $scope.closeEditUser = function (user_id) {
+                let selectEditUser = JSON.parse(JSON.stringify($scope.selectEditUser))
+                selectEditUser = $linq(selectEditUser).where(x => !(x.user_id == user_id)).toArray()
+                $scope.selectEditUser = selectEditUser;
+            }
+
+            // Function : Remove Group Member in Group (Row)
+            $scope.closeGroup = function (user_id) {
+                let selectUser = JSON.parse(JSON.stringify($scope.selectUser))
+                selectUser = $linq(selectUser).where(x => !(x.user_id == user_id)).toArray()
+                $scope.selectUser = selectUser;
+            }
+
+            // Function : Refresh Tab Layout
+            $scope.syncLayout = function () {
+                $('#hideTabPeople').show();
+                $('#hideTabGroup').show();
+            }
+
+            // Fucntion : Send Status
+            $scope.sendStatus = function (x) {
+                $scope.selectProject = $linq(x).select(s => s.project_name).firstOrDefault()
+                $ngConfirm({
+                    icon: 'fa fa-warning',
+                    title: 'คุณต้องการปิดโปรเจคนี้ใช่หรือไม่?',
+                    content: $scope.selectProject,
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Save',
+                            btnClass: 'btn-success',
+                            action: function () {
+                                $scope.saveStatus(x);
+                            }
+                        },
+                        close: function () {
+
+                        }
+                    }
+                });
+            }
+
+            // Fucntion : Save Status
+            $scope.saveStatus = function (x) {
+                $$post(JSON.stringify(x), base + "Project/SaveStatus", d => {
+                    if (d.success) {
+                        $ngConfirm({
+                            icon: 'fa fa-spinner fa-spin',
+                            title: 'ปิดโปรเจคเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 4 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|6000',
+                            buttons: {
+                                cancel: function () {
+                                    $scope.readProject();
+                                }
+                            }
+                        });
+                        $scope.readProject();
+                    }
+                    else {
+                        swal({
+                            title: "Error",
+                            text: d.error,
+                            icon: "error",
+                            timer: 5000
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+
+        });
+
+        iTeam.directive('date', function (dateFilter) {
+            return {
+                require: 'ngModel',
+                link: function (scope, elm, attrs, ctrl) {
+
+                    var dateFormat = attrs['date'] || 'yyyy-MM-dd';
+
+                    ctrl.$formatters.unshift(function (modelValue) {
+                        return dateFilter(modelValue, dateFormat);
+                    });
+                }
+            };
+        })
+
+
+
+
+
+    </script>
+}

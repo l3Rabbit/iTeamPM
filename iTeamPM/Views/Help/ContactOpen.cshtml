@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "Contact Detail - iTeam Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+@section headerTitle{
+    <h3><i class="fa fa-envelope">&nbsp; Contact</i></h3>
+}
+    <div class="container" ng-controller="ContactDetail">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default b-a-2 no-bg b-gray-dark">
+                    <div class="panel-heading">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
+                                <a class="p-l-0 btn btn-link" href="@Url.Action("ViewContact", "Help")"><i class="fa fa-fw fa-angle-left m-r-1"></i>Inbox</a>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 col-sm-4 col-sm-offset-2 col-xs-12">
+                                <div class="btn-group hidden-lg hidden-md hidden-sm" role="group" aria-label="...">
+                                    <a href="@Url.Action("ViewContact", "Help")" class="btn p-l-0 btn-link" role="button"><i class="fa fa-angle-left m-r-1"></i> Inbox</a>
+                                </div>
+                                <div class="btn-toolbar pull-right">
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <a href="#" class="btn btn-default" role="button" ng-click="checkstatus(data);" ng-hide="data.status == 'Y'"><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn btn-default" role="button" ng-click="checkdelete(data);"><i class="fa fa-trash"></i></a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-right text-right pull-right media-middle hidden-xs">
+                                <span class="media-object">
+                                    {{data.add_date | date:"dd/MM/yyyy"}}
+                                    <br>  <span>{{data.add_date | date:"h:mma"}}</span>
+                                </span>
+                            </div>
+
+                            <div class="media-body media-auto">
+                                <span class="media-heading text-white m-r-1">{{data.user_name}}</span> <samp>{{data.email}}</samp>
+                                <br>
+                                <span class="media-heading">
+                                    <small class="hidden-lg hidden-md hidden-sm"><br>30 Sep, Wed, 2016, <span>12:50</span> PM</small>
+                                </span>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <h3 class="f-w-300 m-t-0 m-b-2"><span>ติดต่อ iTeam Develop</span></h3>
+                        <p><span>{{data.des}}</span></p>
+                    </div>
+
+                    <div class="panel-footer">
+                        <!-- START Header with Option -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-sm-offset-2 col-lg-offset-2 col-md-offset-2 col-sm-4 col-sm-offset-2 col-xs-12">
+                                <!-- START Toolbar -->
+                                <div class="btn-toolbar pull-right">
+                                    <div class="btn-group" role="group" aria-label="...">
+                                        <a class="btn btn-primary" data-toggle="modal" data-target=".create-news"><i class="fa fa-fw fa-reply"></i> <span class="hidden-md hidden-sm hidden-xs">Reply</span></a>
+                                    </div>
+                                </div>
+                                <!-- END Toolbar -->
+                            </div>
+                        </div>
+                        <!-- END Header with Option -->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal: Create News -->
+        <div class="modal modal-createnews fade create-news" style="margin-top:5%" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&#xD7;</span>
+                        </button>
+                        <h4 class="modal-title hidden-xs">
+                            <img src="~/Content/assets/images/poj.gif" height="30" /> News <small> หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small>
+                        </h4>
+                        <h4 class="modal-title visible-xs">
+                            <img src="~/Content/assets/images/poj.gif" height="30" /> Create News <small> * จำเป็นต้องกรอกข้อมูล</small>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-sm-3 control-label"><span class="text-danger">*</span> News Name</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" placeholder="ชื่อหัวข้อที่ต้องการประกาศ" ng-model="data.news_name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-sm-3 control-label"><span class="text-danger">*</span> Upload Picture </label>
+                                        <div class="col-sm-8">
+                                            <input type="file" id="File" name="File" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-sm-3 control-label"><span class="text-danger">*</span> Description</label>
+                                        <div class="col-sm-8">
+                                            <textarea style="overflow:auto;resize:none" class="form-control" rows="8" placeholder="กรอกรายละเอียดของประกาศ" ng-model="data.news_des"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label class="col-sm-3 control-label"><span class="text-danger">*</span> Color </label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" ng-model="data.color">
+                                                <option>Select Color</option>
+                                                <option style="color:#cb3e4b" value="b-t-danger"> ▇  Red / สีแดง </option>
+                                                <option style="color:#86b34d" value="b-t-success"> ▇  Green / สีเขียว </option>
+                                                <option style="color:#2d99dc" value="b-t-primary"> ▇  Bule / สีน้ำเงิน </option>
+                                                <option style="color:#35bda8" value="b-t-info"> ▇  Sky / สีฟ้า </option>
+                                                <option style="color:#e66c40" value="b-t-warning"> ▇  Orange / สีส้ม </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger " data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-endaveour" ng-click="btn.createNews()">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal: Create News -->
+
+
+    </div>
+
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", ['cp.ngConfirm']);
+        iTeam.controller("ContactDetail", function ($scope, $http, $filter, $location, $ngConfirm,) {
+            $scope.data = {};
+            $scope.ReadNews = [];
+
+            $scope.LoadData = {
+                readNews: function () {
+                    $$get(base + "Community/ReadNews", d => {
+                        $scope.ReadNews = d.data;
+                        $scope.$apply();
+                    });
+                },
+            }
+            $scope.LoadData.readNews();
+
+            $scope.btn = {
+                createNews: function () {
+                    var file_input = document.getElementById('File')
+                    var file = file_input.files[0]
+                    var formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("form", JSON.stringify($scope.data));
+
+                    $$post(formData, base + "Community/CreateNews", d => {
+                        if (d.success) {
+                            $scope.data = {};
+                            $ngConfirm({
+                                title: 'บันทึกเรียบร้อยแล้ว',
+                                content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+                                autoClose: 'cancel|4000',
+                                buttons: {
+                                    cancel: function () {
+
+                                    }
+                                }
+                            });
+                            $scope.LoadData.readNews();
+                            $('.create-news').modal('hide');
+                        }
+                        else {
+                            $ngConfirm({
+                                icon: 'fa fa-warning',
+                                title: 'คำเตือน',
+                                content: d.error,
+                                type: 'red',
+                                typeAnimated: true,
+                                buttons: {
+                                    close: function () {
+
+                                    }
+                                }
+                            });
+                        }
+                    }, err => { }, () => { })
+                },
+                createLink: function (id) {
+                    return base + "Community/ViewCommunity?news_id=" + id
+                },
+            }
+
+            // Function : Read Tasks in Database
+            $scope.ContactReadDetail = function () {
+                $$get(base + "Help/ContactReadDetail?contact_id=" + $queryString.contact_id, d => {
+                    $scope.data = d.data;
+                    $scope.$apply();
+                })
+            }
+            $scope.ContactReadDetail();
+
+            $scope.checkstatus = function (data) {
+                $ngConfirm({
+                    icon: 'fa fa-warning',
+                    title: 'want to finish contract?',
+                    type: 'green',
+                    content:'success your contract',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Success',
+                            btnClass: 'btn-green',
+                            action: function () {
+                                $scope.changestatus(data);
+                            }
+                        },
+                        close: function () {
+
+                        }
+                    }
+                });
+            }
+
+            $scope.changestatus = function (data) {
+                $$post(JSON.stringify(data), base + "Help/ChangeStatus", d => {
+                    if (d.success) {
+                        sweetAlert({
+                            title: "Success",
+                            text: "การติดต่อเสร็จสิ้น",
+                            icon: "success",
+                            timer: 3000
+                        })
+                        $scope.ContactReadDetail();
+                    }
+
+                })
+            }
+
+            $scope.checkdelete = function (data) {
+                $ngConfirm({
+                    icon: 'fa fa-warning',
+                    title: 'want to delete contract?',
+                    content: 'ลบ จดหมาย ใช่หรือไม่',
+                    type: 'red',
+                    
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'delete',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                $scope.contractdelete(data);
+                            }
+                        },
+                        close: function () {
+
+                        }
+                    }
+                });
+            }
+
+            $scope.contractdelete = function (data) {
+                $$post(JSON.stringify(data), base + "Help/ContactDelete", d => {
+                    if (d.success) {
+                        sweetAlert({
+                            title: "Success",
+                            text: "การติดต่อเสร็จสิ้น",
+                            icon: "success",
+                            timer: 3000
+                        }).then(function () {
+                            window.location = base + "Help/ViewContact"
+                        });
+                        $scope.data = {};
+
+                    }
+
+                })
+
+            }
+
+           
+
+        });
+    </script>
+}
+

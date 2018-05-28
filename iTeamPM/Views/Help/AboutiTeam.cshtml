@@ -1,0 +1,138 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+    ViewBag.Title = "Contact - iTeam Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+
+@section headerTitle{
+    <h3><i class="fa fa-mortar-board"></i> About iTeam</h3>
+}
+<style>
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .column {
+        float: left;
+        width: 33.3%;
+        margin-bottom: 16px;
+        padding: 0 8px;
+    }
+
+    .image {
+        font-size: 30px !important;
+    }
+
+    .column {
+        width: 100%;
+        display: block;
+    }
+
+
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+
+        .container::after, .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+    .title {
+        color: grey;
+    }
+
+    .button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        .button:hover {
+            background-color: #555;
+        }
+</style>
+
+<div class="container" ng-controller="Contactlist">
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-5 col-xs-12">
+            <div class="card" style="height:440px;">
+                <img src="~/Content/assets/images/bell.jpg" style="width:100%" />
+                <div class="container">
+                    <h2>Kitapon</h2>
+                    <p class="title">Fullstack Developer</p>
+                    <a href="https://web.facebook.com/kzblackrevo" target="_blank"><i class="fa fa-facebook-square image "></i> </a>
+                    <p><i class="fa fa-phone-square image text-success"></i>&nbsp;&nbsp;095-704-0794</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-5 col-xs-12">
+            <div class="card" style="height:440px;">
+                <img src="~/Content/assets/images/mos.jpg" style="width:100%" />
+                <div class="container">
+                    <h2>Pichet</h2>
+                    <p class="title">Backend Developer</p>
+                    <a href="https://web.facebook.com/mospichetboonwong" target="_blank"><i class="fa fa-facebook-square image "></i> </a>
+                    <p><i class="fa fa-phone-square image text-success"></i>&nbsp;&nbsp;098-285-0832</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-5 col-xs-12">
+            <div class="card" style="height:440px;">
+                <img src="~/Content/assets/images/PP.jpg" style="width:100%" />
+                <div class="container">
+                    <h2>Phirasin</h2>
+                    <p class="title">Fontend Developer</p>
+                    <a href="https://web.facebook.com/Pi.Pi.Sleepy" target="_blank"><i class="fa fa-facebook-square image "></i> </a>
+                    <p><i class="fa fa-phone-square image text-success"></i>&nbsp;&nbsp;083-210-1761</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-5 col-xs-12">
+            <div class="card" style="height:440px;">
+                <img src="~/Content/assets/images/bhum.jpg" style="width:100%" />
+                <div class="container">
+                    <h2>Bhumipas</h2>
+                    <p class="title">Fontend Developer</p>
+                    <a href="https://web.facebook.com/schwi1" target="_blank"><i class="fa fa-facebook-square image "></i> </a>
+                    <p><i class="fa fa-phone-square image text-success"></i>&nbsp;&nbsp;093-990-1758</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", []);
+        iTeam.controller("Contactlist", function ($scope, $http, $filter, $location) {
+
+
+        });
+
+    </script>
+}
+

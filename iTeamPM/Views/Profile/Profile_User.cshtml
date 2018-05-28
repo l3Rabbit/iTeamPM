@@ -1,0 +1,339 @@
+﻿@{
+	var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+	ViewBag.Title = "Profile Detail - iTeam Project Management";
+	Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section headerTitle{
+	<h3><i class="fa fa-user"></i> Profile Detail </h3>
+}
+
+<div class="container" ng-controller="profileUser">
+	<!-- START EDIT CONTENT -->
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<!-- START Left Column -->
+				<div class="col-lg-4 m-b-2">
+					<!-- START Avatar with Name -->
+					<div class="media">
+						<div class="media-left p-r-2">
+							<div class="center-block">
+								<div class="avatar avatar-lg center-block">
+									<img class="img-circle center-block m-t-1 m-b-2" src="{{persons.path_image}}" alt="Avatar">
+									<i class="avatar-status avatar-status-bottom bg-success b-brand-gray-darker"></i>
+								</div>
+							</div>
+						</div>
+						<div class="media-body">
+							<h4 class="m-b-0">
+								<span>{{persons.name_th}}</span>
+							</h4>
+							<p class="m-t-0"><span>{{linq_position(persons.postion)}}</span></p>
+							<div class="btn-toolbar" role="toolbar" aria-label="...">
+								<div class="btn-group" role="group" aria-label="...">
+									<!-- Standard button -->
+									<a role="button" href="#" class="btn btn-default button14" data-toggle="modal" data-target=".modal-edit-profile" title="Edit"><i class="fa fa-fw fa-pencil"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END Avatar with Name -->
+					<div class="hr-text hr-text-left">
+						<h6 class="text-white"><strong>Description</strong></h6>
+					</div>
+					<label class="text-white">{{persons.description}}</label>
+				</div>
+				<!-- START Left Column -->
+				<!-- START Tabs Content -->
+				<div class="col-lg-8">
+
+					<!-- Tabs Buttons -->
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active">
+							<a aria-expanded="true" data-toggle="tab" href="#tab-overview" role="tab">Overview</a>
+						</li>
+					</ul>
+
+					<!-- START Tabs Content -->
+					<div class="tab-content">
+						<!-- START Tab: Overview -->
+						<div class="tab-pane fade in active p-r-1" id="tab-overview" role="tabpanel">
+							<div class="row m-t-3">
+								<div class="col-lg-2 col-md-4 col-sm-4">
+									&nbsp;
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- START Widget - Project -->
+									<div class="panel panel-default bg-primary b-a-0">
+										<div class="panel-body">
+											<p class="text-white m-t-0">
+												Project
+												<span class="label label-white pull-right label-outline">All time</span>
+											</p>
+											<h3 class="display-4 text-center m-b-0">{{dataProject.length}}</h3>
+											<p class="text-muted small text-uppercase m-t-0 m-b-3 text-center">
+												<strong><small class="text-white">Total Project</small></strong>
+												<br>
+											</p>
+										</div>
+									</div>
+									<!-- END Widget - Project -->
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- START Widget - Tasks -->
+									<div class="panel panel-default bg-success b-a-0">
+										<div class="panel-body">
+											<p class="text-white m-t-0">
+												Tasks
+												<span class="label label-white pull-right label-outline">All time</span>
+											</p>
+											<h3 class="display-4 text-center m-b-0">{{dataTask.length}}</h3>
+											<p class="text-muted small text-uppercase m-t-0 m-b-3 text-center">
+												<strong><small class="text-white">Total Tasks</small></strong>
+												<br>
+											</p>
+										</div>
+									</div>
+									<!-- END Widget - Tasks -->
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- START Widget - Group -->
+									<div class="panel panel-default bg-warning b-a-0">
+										<div class="panel-body">
+											<p class="text-white m-t-0">
+												Group
+												<span class="label label-white pull-right label-outline">All time</span>
+											</p>
+											<h3 class="display-4 text-center m-b-0">{{ViewGroup.length}}</h3>
+											<p class="text-muted small text-uppercase m-t-0 m-b-3 text-center">
+												<strong><small class="text-white">Total Group</small></strong>
+												<br>
+											</p>
+										</div>
+									</div>
+									<!-- END Widget - Group -->
+								</div>
+							</div>
+
+							<div class="hr-text hr-text-center m-t-2">
+								<h6 class="text-white"><strong>Contacts</strong></h6>
+							</div>
+							<dl class="dl-horizontal text-left">
+								<dt class="text-left">Phone</dt>
+								<dd class="text-left text-white"><span>{{persons.phone}}</span></dd>
+								<dt class="text-left">ID Line</dt>
+								<dd class="text-left text-white"><a href="http://line.me/ti/p/~{{persons.line_id}}"><span>{{persons.line_id}}</span></a></dd>
+								<dt class="text-left">Email</dt>
+								<dd class="text-left text-white"><a href="#"><span>{{persons.email}}</span></a></dd>
+							</dl>
+
+						</div>
+						<!-- END Tab: Overview -->
+
+					</div>
+					<!-- END Tabs Content -->
+
+				</div>
+				<!-- END Tabs Content -->
+			</div>
+		</div>
+	</div>
+	<!-- END EDIT CONTENT -->
+
+	<!-- START Modal : Edit Profile -->
+	<div class="modal fade modal-edit-profile" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title">Edit Details <small>หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small></h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Avatar</label>
+							<div class="col-sm-9">
+								<div class="panel panel-default no-bg b-a-2 b-gray b-dashed m-b-0">
+									<div class="panel-body">
+										<p class="text-center">
+											<i class="fa fa-3x fa-user text-gray-light text-center m-t-2"></i>
+											<br>
+
+										</p><h5 class="text-center">อัพโหลดโปรไฟล์...</h5>
+										<p class="text-center"><input type="text" class="text text-default" ng-model="persons.path_image" /></p>
+										<p class="small text-center">เฉพาะไฟล์ JPG, GIF, PNG เท่านั้น</p>
+										<p></p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Name</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" ng-model="persons.name_th">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Postion</label>
+							<div class="col-sm-9">
+								<select class="form-control" ng-model="persons.postion">
+									<option value="" selected>โปรดเลือกตำแหน่งงานของท่าน</option>
+									<option ng-repeat="x in position_arr" value="{{x.id}}">{{x.name}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="hr-text hr-text-left">
+							<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">รายละเอียด / ข้อมูลส่วนตัว</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" rows="4" placeholder="กรอกรายละเอียดข้อมูลส่วนตัว" ng-model="persons.description"></textarea>
+							</div>
+						</div>
+
+					</form>
+
+					<div class="hr-text hr-text-left">
+						<h6 class="text-white bg-rangoon-i"><strong>Add Contacts</strong></h6>
+					</div>
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="profile-email" class="col-sm-3 control-label"><span class="text-danger">*</span> Email</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="Enter Here..." ng-model="persons.email">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Phone</label>
+							<div class="col-sm-9">
+								<input type="tel" class="form-control" placeholder="Enter Here..." ng-model="persons.phone">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Line</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="Enter Here..." ng-model="persons.line_id">
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary button14" ng-click="btn.UpdateProfile()">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal : Edit Profile -->
+
+</div>
+
+@section scripts{
+	<script>
+		var base = $("base").attr("href")
+		var iTeam = angular.module("app", ['cp.ngConfirm']);
+		iTeam.controller("profileUser", function ($scope, $http, $filter, $location, $ngConfirm) {
+
+			$scope.persons = {};
+			$scope.data = {};
+			$scope.dataProject = [];
+			$scope.dataTask = [];
+			$scope.ViewGroup = [];
+
+            $scope.position_arr = [
+                { id: '0', name: 'Admin' },
+				{ id: '1', name: 'Project Management' },
+				{ id: '2', name: 'Human Resource' },
+				{ id: '3', name: 'Web Application Programmer' },
+				{ id: '4', name: 'Software Programmer' },
+				{ id: '5', name: 'Accounting' },
+                { id: '6', name: 'Staff' },
+                
+			]
+
+			$scope.LoadData = {
+				ReadProfile: function () {
+					let user_id = $queryString.user_id || 0
+					$$get(base + "Profile/ReadProfile?user_id=" + user_id, d => {
+						$scope.persons = d.data;
+						$scope.$apply();
+					}, err => { }, () => { })
+				},
+				readProject: function () {
+					$$get(base + "Home/ReadProject", d => {
+						$scope.dataProject = d.data;
+						$scope.$apply();
+					});
+				},
+				readTasks: function () {
+					$$get(base + "Home/ReadTasks", d => {
+						$scope.dataTask = d.data;
+						$scope.$apply();
+					});
+				},
+				ReadGroup: function () {
+					$$get(base + "Member/ViewGroup", d => {
+						$scope.ViewGroup = d.data;
+						$scope.$apply();
+					}, err => { }, () => { })
+				},
+			}
+
+			$scope.btn = {
+				UpdateProfile: function () {
+					$$post(JSON.stringify($scope.persons), base + "Profile/UpdateProfile", d => {
+						if (d.success) {
+							$ngConfirm({
+								title: 'Update ข้อมูลเรียบร้อยแล้ว',
+								content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+								autoClose: 'cancel|8000',
+								buttons: {
+									cancel: function () {
+
+									}
+								}
+							});
+                            $scope.ReadMember();
+                            $('.modal-edit-profile').modal('hide');
+							$scope.$apply();
+						}
+						else {
+							$ngConfirm({
+								icon: 'fa fa-warning',
+								title: 'คำเตือน',
+								content: d.error,
+								type: 'red',
+								typeAnimated: true,
+								buttons: {
+									close: function () {
+
+									}
+								}
+							});
+						}
+					}, err => { }, () => { })
+				},
+			}
+
+			$scope.linq_position = function (id) {
+				return $linq($scope.position_arr).where(x => x.id == id).select(s => s.name).firstOrDefault();
+			}
+
+			$scope.LoadData.ReadProfile();
+			$scope.LoadData.readProject();
+			$scope.LoadData.readTasks();
+			$scope.LoadData.ReadGroup();
+		    
+		});
+	</script>
+}

@@ -1,0 +1,330 @@
+﻿@{
+	var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+	ViewBag.Title = "Overview - iTeam Project Management";
+	Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section indexActive{
+	active
+}
+
+@section headerTitle{
+	<h3><i class="fa fa-home"></i> Overview</h3>
+}
+<style>
+	.b-w-hover:hover {
+		border: 5px solid #ffffff !important;
+		margin-top: -6px;
+	}
+
+	.b-p-hover:hover {
+		border: 5px solid #2c97de !important;
+		margin-top: -6px;
+	}
+
+	.b-b-hover:hover {
+		border: 5px solid #62ffe0 !important;
+		margin-top: -6px;
+	}
+
+	.b-o-hover:hover {
+		border: 5px solid #e76d3b !important;
+		margin-top: -6px;
+	}
+</style>
+<div class="container" ng-controller="indexProject">
+	<div class="row">
+		<div class="col-lg-12 m-t-2">
+			<!-- START Project Widget -->
+			<a href="@Url.Action( "Project_List","Project")">
+				<div class="col-lg-3">
+					<div class="panel panel-default no-bg b-a-2 b-white b-w-hover">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<i class="fa fa-tasks fa-2x fa-fw text-white"></i>
+								</div>
+								<div class="col-lg-6 text-right">
+									<p class="m-b-0">Project</p>
+									<h1 class="f-w-300 m-t-0 m-b-0">{{dataProject.length}}<small class="text-white"></small></h1>
+								</div>
+							</div>
+						</div>
+						<!-- START Footer -->
+						<div class="panel-footer">
+							<i class="m-r-1 fa fa-history"></i> Updated Now
+						</div>
+						<!-- END Footer -->
+					</div>
+				</div>
+			</a>
+			<!-- END Project Widget -->
+
+			<!-- START Tasks Widget -->
+			<a href="">
+				<div class="col-lg-3">
+					<div class="panel panel-default no-bg b-a-2 b-primary b-p-hover">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<i class="fa fa-folder-open fa-2x fa-fw text-white"></i>
+								</div>
+								<div class="col-lg-6 text-right">
+									<p class="m-b-0">Tasks</p>
+									<h1 class="f-w-300 m-t-0 m-b-0">{{dataTask.length}}<small class="text-white"></small></h1>
+								</div>
+							</div>
+						</div>
+						<!-- START Footer -->
+						<div class="panel-footer">
+							<i class="m-r-1 fa fa-calendar-o"></i> Last Day
+						</div>
+						<!-- END Footer -->
+					</div>
+				</div>
+			</a>
+			<!-- END Tasks Revenue -->
+
+			<!-- START Group Widget -->
+			<a href="@Url.Action( "Member_List","Member")">
+				<div class="col-lg-3">
+					<div class="panel panel-default no-bg b-a-2 b-aquamarine b-b-hover">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<i class="fa fa-users fa-2x fa-fw text-white"></i>
+								</div>
+								<div class="col-lg-6 text-right">
+									<p class="m-b-0">Group</p>
+									<h1 class="f-w-300 m-t-0 m-b-0">{{ViewGroup.length}}<small class="text-white"></small></h1>
+								</div>
+							</div>
+						</div>
+						<!-- START Footer -->
+						<div class="panel-footer">
+							<i class="m-r-1 fa fa-calendar-o"></i> Last Day
+						</div>
+						<!-- END Footer -->
+					</div>
+				</div>
+			</a>
+			<!-- END Group Revenue -->
+
+			<!-- START Event Widget -->
+			<a href="@Url.Action( "Calendar","Calendar")">
+				<div class="col-lg-3">
+					<div class="panel panel-default no-bg b-a-2 b-warning b-o-hover">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<i class="fa fa-calendar-alt fa-2x fa-fw text-white"></i>
+								</div>
+								<div class="col-lg-6 text-right">
+									<p class="m-b-0">Event</p>
+									<h1 class="f-w-300 m-t-0 m-b-0">{{dataProject.length}}<small class="text-white"></small></h1>
+								</div>
+							</div>
+						</div>
+						<!-- START Footer -->
+						<div class="panel-footer">
+							<i class="m-r-1 fa fa-calendar-o"></i> Last Day
+						</div>
+						<!-- END Footer -->
+					</div>
+				</div>
+			</a>
+			<!-- END Event Widget -->
+		</div>
+	</div>
+	<div class="row">
+		<!-- START Empty Widget -->
+		<div class="col-lg-2 m-t-2">
+			&nbsp;
+		</div>
+		<!-- END Empty Widget -->
+
+		<!-- START Projects Widget -->
+		<div class="col-lg-4 m-t-2 ">
+			<div class="panel panel-default no-bg b-a-2 b-gray-dark collapsible-panel">
+				<!-- START Heading -->
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-lg-3 col-md-3"></div>
+						<div class="col-lg-6 col-md-6 text-center">Projects</div>
+						<div class="col-lg-3 col-md-3 text-right">
+						</div>
+					</div>
+				</div>
+				<!-- END Heading -->
+				<div class="panel-body" style="height:383.3px;">
+					<div class="scroll-300 custom-scrollbar">
+						<ul class="list-group" ng-show="!(dataProject.length > 0)">
+							<li class="list-group-item no-bg b-t-0">
+								<div class="media m-t-0">
+									<div class="media-body">
+										<h5 class="m-b-1 text-center">ไม่พบโปรเจคในฐานข้อมูล</h5>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<ul class="list-group">
+							<li class="list-group-item no-bg b-a-0" ng-repeat="x in dataProject">
+								<div class="media m-t-0">
+									<div class="media-body">
+										<h5 class="m-b-1"><a href="{{createString(x.project_id)}}" target="_blank">{{x.project_name}}</a></h5>
+									</div>
+									<div class="media-right media-middle">
+										<span class="label label-primary label-outline" ng-if="x.tasks_complete / x.tasks_count * 100  != 100">Active</span>
+										<span class="label label-success label-outline" ng-if="x.tasks_complete / x.tasks_count * 100  == 100">Complete</span>
+									</div>
+								</div>
+								<div class="progress b-r-a-0 m-t-0 m-b-1" style="height: 3px">
+									<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{(x.tasks_complete / x.tasks_count) * 100}}%">
+										<span class="sr-only">
+											Projects
+											% Complete
+										</span>
+									</div>
+								</div>
+								<div class="row m-b-2">
+									<div class="col-sm-4 col-xs-4 text-center">
+										<h4 class="m-t-0 f-w-300 m-b-0">{{x.tasks_count != 0 ? (x.tasks_complete / x.tasks_count ) * 100 : 0}}%</h4>
+										<p class="text-center m-b-0">Complete</p>
+									</div>
+									<div class="col-sm-4 col-xs-4 text-center">
+										<h4 class="m-t-0 f-w-300 m-b-0">{{x.count_tasks}}</h4>
+										<p class="text-center m-b-0"> My Tasks</p>
+									</div>
+									<div class="col-sm-4 col-xs-4 text-center">
+										<h4 class="m-t-0 f-w-300 m-b-0">{{x.is_overdue}}</h4>
+										<p class="text-center m-b-0"> Days Due</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="panel-footer text-center">
+					&nbsp;
+				</div>
+
+			</div>
+		</div>
+		<!-- END Projects Widget -->
+
+		<!-- START Tasks Widget -->
+		<div class="col-lg-4 m-t-2">
+			<div class="panel panel-default no-bg b-a-2 b-gray-dark collapsible-panel">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-lg-3 col-md-3"></div>
+						<div class="col-lg-6 col-md-6 text-center">Tasks</div>
+						<div class="col-lg-3 col-md-3 text-right">
+						</div>
+					</div>
+				</div>
+
+				<div class="panel-body" style="height:383.3px;">
+					<div class="custom-scrollbar scroll-300">
+						<ul class="list-group" ng-show="!(dataTask.length > 0)">
+							<li class="list-group-item no-bg b-t-0">
+								<div class="media m-t-0">
+									<div class="media-body">
+										<h5 class="m-b-1 text-center">ไม่พบระบบงานในฐานข้อมูล</h5>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<ul class="list-group">
+							<li class="list-group-item no-bg b-a-0" ng-repeat="x in dataTask">
+								<div class="media">
+									<div class="media-body">
+										<div class="checkbox m-b-0 m-t-0">
+											<label>
+												<a href="{{queryString(x.task_id)}}" target="_blank"><span>{{x.tasks_name}}</span></a>
+												<br><span class="m-t-1 small"><span>{{x.add_dt | date:"dd/MM/yyyy 'at' h:mma"}}</span> </span>
+												<br><span class="m-t-1 small"><span>In Project : {{x.project_name}}</span> </span>
+											</label>
+										</div>
+									</div>
+									<div class="media-right media-middle text-right">
+										<i class="fa fa-fw fa-circle text-success"></i>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="panel-footer text-center">
+					&nbsp;
+				</div>
+
+			</div>
+		</div>
+		<!-- END Tasks Widget -->
+	</div>
+</div>
+
+@section scripts{
+	<script>
+        var iTeam = angular.module("app", ['toastr']);
+        iTeam.controller("indexProject", function ($scope, $http, $filter, $location, toastr) {
+
+			$scope.dataProject = [];
+			$scope.dataTask = [];
+            $scope.ViewGroup = [];
+
+			// Function : Query String (Project)
+			$scope.createString = function (id) {
+				return base + "Project/Project_Detail?project_id=" + id
+			}
+
+			// Function : Query String (Tasks)
+			$scope.queryString = function (id) {
+				return base + "Project/Tasks_Detail?task_id=" + id
+			}
+
+			// Function : Read Project
+			$scope.readProject = function () {
+				$$get(base + "Home/ReadProject", d => {
+					$scope.dataProject = d.data;
+					$scope.$apply();
+				});
+			}
+			$scope.readProject();
+
+			// Function : Read Tasks
+			$scope.readTasks = function () {
+				$$get(base + "Home/ReadTasks", d => {
+					$scope.dataTask = d.data;
+					$scope.$apply();
+				});
+			}
+			$scope.readTasks();
+
+			// Function : Read Group
+			$scope.ReadGroup = function () {
+				$$get(base + "Member/ViewGroup", d => {
+					$scope.ViewGroup = d.data;
+					$scope.$apply();
+				}, err => { }, () => { })
+			}
+			$scope.ReadGroup();
+
+			setInterval(function () {
+				$scope.readProject();
+				$scope.readTasks();
+				$scope.ReadGroup();
+			}, 10000);
+
+		});
+	</script>
+
+
+
+}

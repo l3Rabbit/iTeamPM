@@ -1,0 +1,726 @@
+﻿
+@{
+	ViewBag.Title = "Tasks - iTeam Project Management";
+	Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+
+@section detailActive{
+	active
+}
+
+@section headerTitle{
+	<h3><i class="fa fa-folder"></i> Tasks System</h3>
+}
+<style>
+	.b-g-hover:hover {
+		border: 5px solid #87dc1d !important;
+		margin-top: -6px;
+	}
+
+	.b-p-hover:hover {
+		border: 5px solid #0789e0 !important;
+		margin-top: -6px;
+	}
+</style>
+
+
+
+<div class="container" ng-controller="projectDetail">
+	<!-- START EDIT CONTENT -->
+	<div class="row">
+		<!-- START Left Column -->
+		<div class="col-lg-3">
+			<!-- START Search -->
+			<div class="hr-text hr-text-left m-t-0 m-b-1">
+				<h6 class="text-white"><strong>Search</strong></h6>
+			</div>
+			<div class="input-group">
+				<input type="text" ng-model="searchText" class="form-control" aria-label="..." placeholder="Search..." ng-change="page.setCurrentPage(1);readTask()" ng-model-options="{debounce:1000}">
+				<span class="input-group-addon">
+					<i class="fa" ng-class="{'fa-search':!cus_loading, 'fa-spinner':cus_loading,'fa-spin':cus_loading}"></i>
+				</span>
+			</div>
+			<!-- END Search -->
+			<!-- START Tasks -->
+			<div class="hr-text hr-text-left m-t-2 m-b-1">
+				<h6 class="text-white"><strong>Tasks</strong></h6>
+			</div>
+			<ul class="nav nav-pills nav-stacked">
+				<li role="presentation" class="" ng-repeat="x in dataTasks">
+					<a href="{{createLink(x.task_id)}}">{{x.tasks_name}}</a>
+				</li>
+				<li role="presentation">
+				</li>
+			</ul>
+			<!-- END Tasks -->
+		</div>
+		<!-- END Left Column -->
+
+		<div class="col-lg-9">
+			<!-- START Header with Option -->
+			<div class="row m-b-1">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+					<div class="btn-toolbar pull-right hidden-lg hidden-md hidden-sm">
+						<div class="btn-group btn-group-justified" role="group" aria-label="...">
+							<a class="btn btn-block btn-default active" href="#" role="button" data-toggle="modal" data-target=".new-tasks" ng-hide="status_project == 'Y' "><i class="fa fa-plus"></i></a>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-lg-5 col-md-5 col-xs-6 col-lg-offset-1 col-md-offset-1 col-sm-4 col-sm-offset-2 hidden-xs">
+					<!-- START Toolbar -->
+					<div class="btn-toolbar pull-right">
+						<div class="btn-group" role="group" aria-label="...">
+							<button type="button" class="btn btn-primary button14" data-toggle="modal" data-target=".new-tasks" ng-hide="status_project == 'Y' "><span class="hidden-md hidden-sm hidden-xs">New Tasks</span> <i class="fa fa-fw fa-plus"></i></button>
+						</div>
+					</div>
+					<!-- END Toolbar -->
+				</div>
+			</div>
+			<!-- END Header with Option -->
+
+			<div class="row">
+
+				<!-- START Default Page -->
+				<div class="col-lg-12 col-md-12" ng-show="!(dataTasks.length > 0)">
+                    <h4 class="text-center"><i class="fa fa-spinner fa-spin"></i> ไม่พบข้อมูลในฐานข้อมูล</h4>
+				</div>
+				<!-- END Default Page -->
+
+				<div class="col-lg-6 col-md-6" ng-repeat="x in dataTasks | orderBy: 'id'">
+					<!-- START Task Grid -->
+					<div class="panel panel-default">
+						<div ng-class="{'b-a-2 no-bg b-success b-g-hover':x.status == 'Y','b-a-2 no-bg b-primary b-p-hover':x.status != 'Y'}">
+							<div class="panel-body">
+								<!-- START Dropdown SM Priority -->
+								<a class="btn btn-default btn-sm disabled" aria-haspopup="true" aria-expanded="true">
+									<i ng-class="statusClass('', x.tasks_prioity)"></i> {{dataPrioity(x.tasks_prioity)}}
+								</a>
+								<span class="pull-right text-success" ng-show="x.status == 'Y'">Success (เสร็จสิ้น)</span>
+                                <span class="pull-right text-primary" ng-show="x.status == 'N'">Active (กำลังดำเนินงาน)</span>
+								<!-- END Dropdown SM Priority -->
+								<div class="media">
+									<div class="media-left media-middle">
+
+									</div>
+									<div class="media-body">
+										<!-- START ID & Title Task -->
+										<h4 class="m-t-0 m-b-1">
+											<i class="fa fa-folder-open"></i> <a href="{{createLink(x.task_id)}}" style="color:white"><span>{{x.tasks_name}}</span></a>
+										</h4>
+										<!-- END ID & Title Task -->
+									</div>
+								</div>
+								<!-- END Media Task Name -->
+								Create by: <a class="text-white" ng-click="showCreate(x)" data-toggle="modal" data-target=".modal-create"><span>{{x.username}}</span></a>
+							</div>
+                            <ul class="list-group no-bg">
+                                <li class="list-group-item no-bg">
+                                    <!-- START Widget - Usage -->
+                                    <div class="progress" style="height:10px;">
+                                        <div background-color:#6bfb2e; class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" aria-valuenow="{{(x.complete_list/x.all_list)*100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(x.complete_list/x.all_list)*100}}%"></div>
+                                    </div>
+                                    <span class="m-t-0">
+                                        Progress: <span class="text-white">{{x.all_list != 0 ? (x.complete_list/x.all_list)*100 : 0}}%</span>
+                                    </span> 
+                                    <br />
+                                    <span class="m-t-0 text-white">
+                                        Incomplete : {{x.incomplete_list}} Waiting : {{x.waiting_list}} Success : {{x.complete_list}}
+                                    </span>
+                                    <!-- END Widget - Usage -->
+                                </li>
+                                <li class="list-group-item no-bg">
+                                    <img class="img-circle avatar avatar-sm" ng-repeat="v in x.memberTasks" src="{{v.path_image}}" data-toggle="tooltip" data-placement="top" title="{{v.name_th}}">
+                                </li>
+                                <li class="list-group-item no-bg">
+                                    <!-- START Dropdown SM Actions -->
+                                    <div class="btn-group pull-right" ng-hide="x.status == 'Y'">
+                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-fw fa-gear"></i> <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="#" ng-click="DeleteDataTask(x)"><i class="fa fa-fw fa-trash text-gray-lighter m-r-1"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- END Dropdown SM Actions -->
+                                    Last Updated: <span>{{x.add_dt | date:"dd/MM/yyyy 'at' h:mma"}}</span>
+                                </li>
+                            </ul>
+						</div>
+					</div>
+					<!-- END Task Grid -->
+				</div>
+			</div>
+
+			<!-- START Pagination -->
+			<div class="row" ng-show="(dataTasks.length > 0)">
+				<div class="col-sm-12 text-center" style="float: none; margin: 0 auto;">
+					<ul class="pagination">
+						<li ng-repeat="x in pageArray" ng-class="{'active':x.active}" ng-click="page.setCurrentPage(x.page_no);readProject()">
+							<a onclick="return false" href="#" ng-class="{'active':x.active}">{{x.page_no|number:0}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- END Pagination -->
+
+		</div>
+	</div>
+	<!-- END EDIT CONTENT -->
+
+	<!-- START Modal: New Tasks -->
+	<div class="modal fade new-tasks" style="margin-top:5%" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title">
+						<i class="fa fa-plus-square text-white"></i> Add Task <small> หมายเหตุ * จำเป็นต้องกรอกข้อมูล</small>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><span class="text-danger">*</span> Task Name</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" placeholder="" ng-model="data.tasks_name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><span class="text-danger">*</span> Tasks Prioity</label>
+							<div class="col-sm-9">
+								<select class="form-control" ng-model="data.tasks_prioity">
+									<option value="" disabled selected>โปรดเลือกระดับความสำคัญ</option>
+									<option ng-repeat="x in tasks_prioity" value="{{x.id}}">{{x.name}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-sm-12">
+                                <div class="col-sm-6 col-lg-12 col-xs-12 hidden-xs">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active hidden-xs"><a href="#tab-Description" data-toggle="tab" aria-expanded="true">Description</a></li>
+                                        <li class="hidden-xs"><a href="#tab-People" data-toggle="tab" aria-expanded="false">People</a></li>
+                                        <li class="hidden-xs"><a href="#tab-Dates" data-toggle="tab" aria-expanded="false">Dates</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-12 col-xs-12 visible-xs">
+                                    <ul class="nav nav-tabs">
+                                        <li role="presentation" class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" ng-model="selectTab">
+                                                <span class="text-danger">* &nbsp;</span>{{selectTab}}<span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li class="active"><a href="#tab-Description" data-toggle="tab" aria-expanded="true" ng-click="selectTab = Description " ng-model="Description">Description</a></li>
+                                                <li class="" id="hideTabPeople"><a href="#tab-People" data-toggle="tab" aria-expanded="false" ng-model="People" ng-click="selectTab = People ">People</a></li>
+                                                <li class=""><a href="#tab-Dates" data-toggle="tab" aria-expanded="false" ng-model="Dates" ng-click="selectTab = Dates ">Dates</a></li>
+                                                <li class=""><a aria-expanded="false" ng-click="syncLayout()"><i class="fa fa-fw fa-sync"></i></a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                        <div class="col-lg-11 col-sm-11 col-xs-11">
+                                            <div class="tab-content">
+
+                                                <!-- START TAB DESCRIPTION -->
+                                                <div class="tab-pane fade in active p-r-1" id="tab-Description" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Description</label>
+                                                            <div class="col-sm-9">
+                                                                <textarea style="overflow:auto;resize:none" class="form-control" rows="4" placeholder="กรอกรายละเอียดของโปรเจค ?" ng-model="data.tasks_description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB DESCRIPTION -->
+
+                                                <!-- START TAB PEOPLE -->
+                                                <div class="tab-pane fade  p-r-1" id="tab-People" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label"> คุณต้องการเพิ่มทีมลงในงานหรือไม่ ?</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-1">
+                                                            &nbsp;
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <div class="form-group">
+                                                                <label for="single-append-text" class="control-label small text-uppercase"><strong>Select Member :</strong></label>
+                                                                <div class="input-group select2-bootstrap-append">
+                                                                    <select id="single-append-text" class="form-control select2-allow-clear select2-input" ng-model="selectPersons">
+                                                                        <option value="" selected>โปรดเลือกผู้ใช้งานลงในระบบงานของท่าน</option>
+                                                                        <option ng-repeat="v in dataUser" value="{{v.user_id}}">{{v.name_th}}</option>
+                                                                    </select>
+                                                                    <span class="input-group-btn">
+                                                                        <a href="#" class="btn btn-default hvr-pop" data-select2-open="single-append-text" ng-click="addUser()">
+                                                                            <span class="fa fa-plus"></span>
+                                                                        </a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="list-group">
+                                                                <a class="list-group-item" ng-repeat="x in selectUser">
+                                                                    <div class="media">
+                                                                        <div class="media-left">
+                                                                            <div class="avatar avatar-sm">
+                                                                                <img class="media-object img-circle" src="{{x.path_image}}" alt="Avatar">
+                                                                                <i class="avatar-status avatar-status-bottom bg-gray-lighter b-brand-gray-darker"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="media-body media-middle">
+                                                                            <h5 class="m-t-0 m-b-0"><span>{{x.name_th}}</span></h5>
+                                                                            <p class="small text-gray-lighter m-b-0"><span>{{linq_position(x.postion)}}</span></p>
+                                                                        </div>
+                                                                        <div class="media-right">
+                                                                            <span ng-click="closeMember(x.user_id)"><i class="fa fa-times"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB PEOPLE -->
+
+                                                <!-- START TAB DATE -->
+                                                <div class="tab-pane fade p-r-1" id="tab-Dates" role="tabpanel">
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12-col-sm-12 col-xs-12">
+                                                            <div class="col-md-8">
+                                                                <div class="form-group hidden-xs">
+                                                                    <label class="text-right">&nbsp; &nbsp; โปรดกำหนดระยะเวลาเริ่มต้น - สิ้นสุดของงาน</label>
+                                                                </div>
+                                                                <div class="form-group visible-xs ">
+                                                                    <label class="text-right">&nbsp; &nbsp; โปรดกำหนดระยะเวลาของงาน</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p class="text-muted text-uppercase"><small><strong>Start Task</strong></small></p>
+                                                            <div id="daterangepicker-container">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="text" date='dd/MM/yyyy' name="daterange-singe-date-picker" class="form-control" placeholder="Select..." ng-model="dateDefault.date_start" disabled>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <p class="text-muted text-uppercase"><small><strong>End Task</strong></small></p>
+                                                            <div id="daterangepicker-container">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                    <input type="date" min="{{dateDefault.range_start}}" max="{{dateDefault.range_end}}" class="form-control"
+                                                                           ng-model="data.date_end">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- END TAB DATE -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+								
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default button14" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-primary button14" ng-click="newTask()">Create Task</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: New Tasks -->
+
+	<!-- START Modal: Create By Profile -->
+	<div class="modal fade modal-create" style="margin-top:5%" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&#xD7;</span>
+					</button>
+					<h4 class="modal-title"><img src="~/Content/assets/images/012.gif" height="30" /> Profile Details</h4>
+				</div>
+				<div class="modal-body">
+					<!-- START Avatar with Name -->
+					<div class="media m-l-1">
+						<div class="media-left">
+							<div class="center-block">
+								<div class="avatar avatar-lg center-block">
+									<img class="img-circle center-block m-t-1 m-b-2" src="{{createBy.path_image}}" alt="Avatar">
+									<i class="avatar-status avatar-status-bottom bg-danger b-brand-gray-darker"></i>
+								</div>
+							</div>
+						</div>
+						<div class="media-body">
+							<h4>
+								<span>{{createBy.name_th}}</span>
+							</h4>
+							<p class="m-t-0"><span>{{linq_position(createBy.postion)}}</span></p>
+							<div class="btn-toolbar" role="toolbar">
+								<div class="btn-group" role="group">
+									<!-- Standard button -->
+									<button type="button" class="btn btn-success btn-sm "><i class="fa fa-fw fa-envelope-o m-r-1"></i>Message</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END Avatar with Name -->
+					<div class="hr-text hr-text-left">
+						<h6 class="text-white bg-rangoon-i"><strong>Description</strong></h6>
+					</div>
+
+					<span>{{createBy.description}}</span>
+
+					<!-- Tabs Buttons -->
+					<ul class="nav nav-tabs m-t-3 tab-color-rangoon">
+						<li role="presentation" class="active">
+							<a data-toggle="tab" href="#tab-detail-contact-2" role="tab">Detail Contact</a>
+						</li>
+						<li role="presentation">
+							<a data-toggle="tab" href="#tab-activity" role="tab">Project List</a>
+						</li>
+					</ul>
+					<!-- START Tabs Content -->
+					<div class="tab-content">
+						<!-- START Tab: Detail Contact -->
+						<div class="tab-pane fade in active p-r-1 tab-color-rangoon" id="tab-detail-contact-2" role="tabpanel">
+							<br /> <br />
+							<dl class="dl-horizontal text-left">
+								<dt class="text-left">Phone </dt>
+								<dd class="text-left text-white"><span>{{createBy.phone}}</span></dd>
+								<dt class="text-left">Line </dt>
+								<dd class="text-left text-white"><span>{{createBy.line_id}}</span></dd>
+								<dt class="text-left">Email </dt>
+								<dd class="text-left text-white"><a href="#"><span>{{createBy.email}}</span></a></dd>
+							</dl>
+						</div>
+						<!-- END Tab: Detail Contact -->
+						<!-- START Tab: Activity -->
+						<div class="tab-pane fade p-r-1" id="tab-activity" role="tabpanel">
+							<div class="timeline timeline-datetime">
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Project</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-primary"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">2 Project</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-endaveour"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">8 Project</h4>
+									</div>
+								</div>
+								<div class="hr-text hr-text-center m-t-0 m-b-0">
+									<h6 class="text-white"><strong>Tasks</strong></h6>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-success"></i> Today</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">6 Task</h4>
+									</div>
+									<div class="col-sm-6 col-xs-6 text-center">
+										<p class="text-center m-b-0"><i class="fa fa-circle text-caper"></i> This Month</p>
+										<h4 class="m-t-0 f-w-300 m-b-0">28 Task</h4>
+									</div>
+								</div>
+							</div>
+							<div class="timeline timeline-datetime">
+								<div class="timeline-item p-r-1">
+								</div>
+							</div>
+						</div>
+						<!-- END Tab: Activity -->
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END Modal: Create By Profile -->
+
+</div>
+
+@section scripts{
+	<script>
+		var iTeam = angular.module("app", ['cp.ngConfirm']);
+		iTeam.controller("projectDetail", function ($scope, $http, $filter, $location, $ngConfirm) {
+
+			// Data Type
+			$scope.createBy = {};
+			$scope.data = {};
+			$scope.dateDefault = {};
+
+			$scope.dataUser = [];
+			$scope.selectUser = [];
+			$scope.dataTasks = [];
+			$scope.deleteDataT = {};
+
+			$scope.page = new Pagination();
+			$scope.page.setItemsPerPage(6);
+			$scope.pageArray = $scope.page.createPagesArray();
+
+			$scope.searchText = "";
+
+			$scope.selectTab = 'Description';
+			$scope.Description = 'Description';
+			$scope.People = 'People';
+			$scope.Dates = 'Dates';
+
+
+			// Fix Data
+			$scope.tasks_prioity = [
+				{ id: '1', name: 'ทั่วไป (Low)' },
+				{ id: '2', name: 'ปานกลาง (Medium)' },
+				{ id: '3', name: 'สูง (High)' },
+				{ id: '4', name: 'สำคัญที่สุด (Critical)' }
+			]
+
+			$scope.position_arr = [
+				{ id: '1', name: 'Project Management' },
+				{ id: '2', name: 'Human Resource' },
+				{ id: '3', name: 'Web Application Programmer' },
+				{ id: '4', name: 'Software Programmer' },
+				{ id: '5', name: 'Accounting' },
+				{ id: '6', name: 'Staff' },
+			]
+
+			$scope.linq_position = function (id) {
+				return $linq($scope.position_arr).where(x => x.id == id).select(s => s.name).firstOrDefault();
+			}
+
+			// Function : Query String (Tasks Detail)
+			$scope.createLink = function (id) {
+				return base + "Project/Tasks_Detail?task_id=" + id
+			}
+
+			// Function : Check Status
+			$scope.statusClass = function (prefix, status) {
+				return status == '1' ? prefix + 'fa fa-fw fa fa-circle text-secondary' : status == '2' ? prefix + 'fa fa-fw fa fa-circle text-primary' : status == '3' ? prefix + 'fa fa-fw fa fa-circle text-warning' : prefix + 'fa fa-fw fa fa-circle text-danger';
+			}
+
+			// Function : Show Create By
+			$scope.showCreate = function (x) {
+				$$get(base + "Member/CreateBy?user_id=" + x.add_user, d => {
+					$scope.createBy = d;
+					$scope.$apply();
+				});
+			}
+
+			// Function : Read Member in Database
+			$scope.readUserProject = function () {
+				$$get(base + "Project/ReadUserProject?project_id=" + $queryString.project_id, d => {
+					$scope.dataUser = d.data;
+					$scope.$apply();
+				});
+			}
+			$scope.readUserProject();
+
+			// Function : Read Default Project Date
+			$scope.readDate = function () {
+				$$get(base + "Project/ReadDate?project_id=" + $queryString.project_id, d => {
+					$scope.dateDefault = d;
+					$scope.date_start = $linq($scope.dateDefault).select(x => x.date_start).firstOrDefault()
+					$scope.$apply();
+				})
+			}
+			$scope.readDate();
+
+			// Function : Read Tasks in Database
+			$scope.cus_loading = false;
+			$scope.readTask = function () {
+				$scope.cus_loading = true;
+				var p = $scope.page;
+				$$get(base + "Project/ReadTasks?project_id=" + $queryString.project_id + "&skip=" + p.skipItems() + "&take=" + p.getItemsPerPage() + "&text=" + $scope.searchText, d => {
+                    $scope.dataTasks = d.data;
+
+                    $scope.status_project = $linq($scope.dataTasks).select(x => x.status_project).firstOrDefault()
+
+                    var a = $linq($scope.list_tasks).count()
+                    var b = $linq($scope.list_tasks).where(w => w.status == "3").select(s => s.status).count()
+                    $scope.progressTasks = a == 0 ? 0 : (b / a) * 100
+
+					$scope.total = d.total;
+					p.setTotalItems(d.total);
+					$scope.pageArray = p.createPagesArray();
+					$scope.cus_loading = false;
+					$scope.$apply();
+				})
+			}
+			$scope.readTask();
+
+			// Function : New Tasks
+			$scope.newTask = function () {
+				$scope.data.project_id = $queryString.project_id;
+				$scope.data.date_start = $scope.date_start;
+				var form = {
+					'header': $scope.data,
+					'detail': $scope.selectUser
+				};
+				$$post(JSON.stringify(form), base + "Project/NewTask", d => {
+					if (d.success) {
+						$ngConfirm({
+							icon: 'fa fa-spinner fa-spin',
+							title: 'Success',
+							content: 'สร้างระบบงานเรียบร้อยแล้ว',
+							type: 'green',
+							typeAnimated: true,
+							buttons: {
+								close: function () {
+
+								}
+							}
+						});
+						$scope.data = {};
+						$scope.readTask();
+						$('.new-tasks').modal('hide');
+					}
+					else {
+						$ngConfirm({
+							icon: 'fa fa-warning',
+							title: 'คำเตือน',
+							content: d.error,
+							type: 'red',
+							typeAnimated: true,
+							buttons: {
+								close: function () {
+
+								}
+							}
+						});
+					}
+					$scope.data = {};
+
+				}, err => { }, () => { })
+			}
+
+			// Function : Add Member in Group (Row)
+			$scope.addUser = function () {
+				let j = $linq($scope.dataUser).where(x => x.user_id == $scope.selectPersons).firstOrDefault();
+				if (j != null) {
+					if ($linq($scope.selectUser).where(x => x.user_id == $scope.selectPersons).firstOrDefault() == null) {
+						$scope.selectUser.push(JSON.parse(JSON.stringify(j)))
+					}
+				}
+			}
+
+			// Function : Remove Member in Group (Row)
+			$scope.closeMember = function (user_id) {
+				let selectUser = JSON.parse(JSON.stringify($scope.selectUser))
+				selectUser = $linq(selectUser).where(x => !(x.user_id == user_id)).toArray()
+				$scope.selectUser = selectUser;
+			}
+
+			// Function : linq tasks_prioity
+			$scope.dataPrioity = function (id) {
+				return $linq($scope.tasks_prioity).where(x => x.id == id).select(x => x.name).firstOrDefault() || '';
+			}
+
+			// Function : Delete Task => Check Data in Database ---
+			$scope.DeleteDataTask = function (x) {
+				$ngConfirm({
+					icon: 'fa fa-bell',
+					title: 'Alert',
+					content: 'คุณต้องการลบระบบงานนี้ใช่หรือไม่',
+					buttons: {
+						OK: function () {
+							$scope.deleteTask(x)
+						},
+						Close: function(){
+
+						}
+					}
+				});
+			}
+
+			// Function : Delete Task ---
+			$scope.deleteTask = function (x) {
+				$$post(JSON.stringify(x), base + "Project/DeleteTask", d => {
+					if (d.success) {
+						$ngConfirm({
+							icon: 'fa fa-spinner fa-spin',
+							title: 'ลบระบบงานในโปรเจคเสร็จสิ้น',
+							content: 'ข้อความนี้จะปิดตัวลงใน 4 วินาที หากไม่มีการตอบสนอง.',
+							autoClose: 'cancel|4000',
+							buttons: {
+								cancel: function () {
+									$scope.readTask();
+								}
+							}
+						});
+					}
+					else {
+						$ngConfirm({
+							icon: 'fa fa-warning',
+							title: 'คำเตือน',
+							content: d.error,
+							type: 'red',
+							typeAnimated: true,
+							buttons: {
+								close: function () {
+
+								}
+							}
+						});
+					}
+					$scope.readTask();
+					$scope.$apply;
+				}, err => { }, () => { })
+			}
+
+		});
+
+		iTeam.directive('date', function (dateFilter) {
+			return {
+				require: 'ngModel',
+				link: function (scope, elm, attrs, ctrl) {
+
+					var dateFormat = attrs['date'] || 'yyyy-MM-dd';
+
+					ctrl.$formatters.unshift(function (modelValue) {
+						return dateFilter(modelValue, dateFormat);
+					});
+				}
+			};
+		});
+
+	</script>
+}
+

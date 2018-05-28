@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "iTeam Project Management";
+    Layout = "~/Views/_Shared/_LoginLayout.cshtml";
+}
+<style>
+    .button-if{
+        background-color:#5aa433 !important;
+    }
+</style>
+<div class="container-fluid " ng-controller="LoginControl">
+    <br /> <br /> <br />
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div>
+                <div class="panel-heading text-center">
+                    <a href="#"> <img src="~/Content/assets/images/TT2.gif"  class="img-responsive center-block" alt="Logo"></a>
+                    
+
+                </div>
+                <div class="panel-body">
+                    
+                    <form class="m-t-3">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Enter a Username..." ng-model="data.username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Your Password..." ng-model="data.password">
+                        </div>
+                        @*<a href="@Url.Action("Index", "Home")" role="button" class="btn btn-block m-b-2 btn-primary">Login</a>*@
+                        <button class="btn btn-block btn-default m-b-2 btn-primary button1" ng-click="login()"ng-class="{'button-if':data.username&&data.password}">Login</button>
+                    </form>
+                </div>
+                <div class="panel-footer b-a-0 b-r-a-0">
+					<label style="color:white">โปรดสมัครสมาชิกก่อนเข้าสู่ระบบ</label>
+                    <a href="@Url.Action("Register", "Account")" class="pull-right">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var base = $("base").attr("href")
+        var iTeam = angular.module("app", []);
+        iTeam.controller("LoginControl", function ($scope, $http, $filter, $location) {
+            $scope.data = {};
+            $scope.login = function () {
+                if (!$scope.data.username || !$scope.data.password) {
+                    sweetAlert("Error Message", "Please input your Username or Password !", "error");
+                    return
+                }
+                $$post(JSON.stringify($scope.data), base + "Account/LoginDo", d => {
+                    if (d.success) {
+                        swal({
+                            title: "Success",
+                            text: "คุณได้เข้าสู่ระบบเสร็จสิ้น",
+                            icon: "success",
+							timer: 5000
+						}).then(function () {
+							window.location = base + "Home/Index"
+						});
+                    }
+                    else {
+						swal({
+							title: "Error Message",
+							text: d.error,
+							icon: "error"
+						});
+                    }
+                }, err => { }, () => { })
+            }
+        })
+    </script>
+}

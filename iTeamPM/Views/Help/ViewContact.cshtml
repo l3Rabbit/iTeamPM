@@ -1,0 +1,169 @@
+﻿@{
+    var auth = (iTeamPM.Models.Auth)ViewBag.auth;
+}
+
+@{
+    ViewBag.Title = "Contact - iTeam Project Management";
+    Layout = "~/Views/_Shared/_Layout.cshtml";
+}
+@section Contact{
+    active
+}
+
+@section headerTitle{
+    <h3><i class="fa fa-envelope"></i> Contact</h3>
+}
+<style>
+    .open {
+        opacity: 0.5;
+    }
+
+    .btn-status {
+        opacity: 1;
+        background-color: #ff0000;
+    }
+
+    .contact-list {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+    }
+</style>
+
+<div class="container" ng-controller="Contactlist">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-5 col-xs-12">
+            <div class="input-group">
+                <input type="text" ng-model="searchText" class="form-control" aria-label="..." placeholder="Search..." ng-change="page.setCurrentPage(1);readContact()" ng-model-options="{debounce:1000}">
+                <span class="input-group-addon">
+                    <i class="fa" ng-class="{'fa-search':!cus_loading, 'fa-spinner':cus_loading,'fa-spin':cus_loading}"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover m-t-3">
+            <thead>
+                <tr>
+                    <th class="small text-muted text-uppercase"><strong>Name</strong> </th>
+                    <th class="small text-muted text-uppercase"><strong>Description</strong> </th>
+                    <th class="small text-muted text-uppercase text-right"><strong>update</strong> </th>
+                    <th class="small text-muted text-uppercase text-right"><strong>Actions</strong> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in readcontact" ng-class="{'open':x.read == 'Y'}" ng-click="changeread(x);openContact(x);">
+                    <td class="v-a-m">
+                        <p class="m-t-0 text text-white"><span>{{x.user_name | limitTo: 30}}</span><span ng-if="(x.user_name).length > 30">...</span></p>
+                    </td>
+                    <td class="v-a-m text-left text text-white">
+                        <span>{{x.des | limitTo: 100}}</span>
+                        <span ng-if="(x.des).length > 100">....</span>
+                    </td>
+                    <td class="v-a-m text-right text text-white"> <span>{{x.add_date | date:"dd/MM/yyyy"}}</span></td>
+                    <td class="text-right v-a-m">
+                        <button ng-if="x.status == 'Y'" type="button" class="btn btn-sm button14 btn-wa btn-success" data-toggle="modal" data-target=".modal-profile" ng-click="">
+                            <span class="fa fa-check"></span>
+                        </button>
+                        <button ng-if="x.status == 'N'" type="button" class="btn btn-sm button14 btn-wa btn-danger" data-toggle="modal" data-target=".modal-profile" ng-click="">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="text-center">
+                <nav>
+                    <ul class="pagination">
+                        <li ng-repeat="x in pageArray" ng-class="{'active':x.active}" ng-click="page.setCurrentPage(x.page_no);readContact()">
+                            <a onclick="return false" href="#" ng-class="{'active':x.active}">{{x.page_no|number:0}}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        var iTeam = angular.module("app", []);
+        iTeam.controller("Contactlist", function ($scope, $http, $filter, $location) {
+            $scope.data = {};
+            $scope.readcontact = [];
+            $scope.searchText = "";
+            // Pagination
+            $scope.page = new Pagination();
+            $scope.page.setItemsPerPage(10);
+            $scope.pageArray = $scope.page.createPagesArray();
+
+            $scope.contactadd = function () {
+                var form = {
+                    'data': $scope.data
+                }
+                $$post(JSON.stringify(form), base + "Help/ContactAdd", d => {
+                    if (d.success) {
+                        $scope.data = {};
+                        $ngConfirm({
+                            title: 'บันทึกเรียบร้อยแล้ว',
+                            content: 'ข้อความนี้จะปิดตัวลงใน 6 วินาที หากไม่มีการตอบสนอง.',
+                            autoClose: 'cancel|4000',
+                            buttons: {
+                                cancel: function () {
+                                    //$scope.readTask();
+                                }
+                            }
+                        });
+                        $('.create-news').modal('hide');
+                    }
+                    else {
+                        swal({
+                            title: "Error",
+                            text: d.error,
+                            icon: "error",
+                            timer: 5000
+                        });
+                    }
+                }, err => { }, () => { })
+            }
+
+            $scope.readContact = function () {
+
+                var p = $scope.page;
+
+
+                $$get(base + "Help/ReadContact?skip=" + p.skipItems() + "&take=" + p.getItemsPerPage() + "&text=" + $scope.searchText, d => {
+
+                    $scope.total = d.total;
+                    p.setTotalItems(d.total);
+                    $scope.pageArray = p.createPagesArray();
+                    $scope.cus_loading = false;
+
+                    $scope.readcontact = d.data;
+                    $scope.$apply();
+                });
+            }
+            $scope.readContact();
+
+            $scope.openContact = function (x) {
+                window.open('Help/ContactOpen?contact_id=' + x.contact_id);
+            }
+
+            $scope.changeread = function (x) {
+                $$post(JSON.stringify(x), base + "Help/ChangeRead", d => {
+                    if (d.success) {
+                        $scope.readContact();
+                    }
+
+                })
+            }
+        });
+
+    </script>
+}
+
